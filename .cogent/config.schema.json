@@ -1,0 +1,133 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "COGENT Project Configuration",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Human-readable project name"
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique project identifier"
+        },
+        "path": {
+          "type": "string",
+          "description": "Absolute path to project root"
+        },
+        "language": {
+          "type": "string",
+          "enum": ["javascript", "typescript", "python", "go", "rust", "java"],
+          "description": "Primary programming language"
+        }
+      },
+      "required": ["name", "id", "path", "language"]
+    },
+    "documentation": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "object",
+          "properties": {
+            "format": {
+              "type": "string",
+              "enum": ["markdown", "restructured_text"],
+              "default": "markdown"
+            },
+            "detail_level": {
+              "type": "string",
+              "enum": ["brief", "detailed", "comprehensive"],
+              "default": "detailed"
+            }
+          }
+        },
+        "templates": {
+          "type": "object",
+          "properties": {
+            "file_header": {
+              "type": "string",
+              "description": "Template for file documentation headers"
+            },
+            "function_doc": {
+              "type": "string",
+              "description": "Template for function documentation"
+            },
+            "class_doc": {
+              "type": "string",
+              "description": "Template for class documentation"
+            }
+          }
+        }
+      }
+    },
+    "patterns": {
+      "type": "object",
+      "properties": {
+        "include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Glob patterns for files to include in documentation"
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Glob patterns for files to exclude from documentation"
+        }
+      },
+      "default": {
+        "include": ["**/*.js", "**/*.ts", "**/*.py", "**/*.go"],
+        "exclude": ["node_modules/**", "vendor/**", "*.test.*", "*.spec.*"]
+      }
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["private", "public"],
+      "default": "private",
+      "description": "Documentation visibility setting"
+    },
+    "hooks": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "timeout": {
+          "type": "number",
+          "default": 30000,
+          "description": "Hook timeout in milliseconds"
+        },
+        "tools": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["Edit", "Write", "MultiEdit"]
+          },
+          "default": ["Edit", "Write", "MultiEdit"]
+        }
+      }
+    },
+    "api": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Project-specific API key for MCP server access"
+        },
+        "backend_url": {
+          "type": "string",
+          "default": "http://localhost:8080",
+          "description": "Backend API URL"
+        }
+      }
+    }
+  },
+  "required": ["project", "documentation", "patterns"]
+}

@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database
+  postgres:
+    image: postgres:17-alpine
+    container_name: cogent-postgres
+    environment:
+      POSTGRES_DB: cogent
+      POSTGRES_USER: cogent
+      POSTGRES_PASSWORD: cogent_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cogent -d cogent"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Backend API server
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: cogent-backend
+    environment:
+      - DATABASE_URL=postgres://cogent:cogent_dev_password@postgres:5432/cogent?sslmode=disable
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=dev_jwt_secret_change_in_production
+      - OAUTH_GITHUB_CLIENT_ID=${OAUTH_GITHUB_CLIENT_ID}
+      - OAUTH_GITHUB_CLIENT_SECRET=${OAUTH_GITHUB_CLIENT_SECRET}
+      - OAUTH_GOOGLE_CLIENT_ID=${OAUTH_GOOGLE_CLIENT_ID}
+      - OAUTH_GOOGLE_CLIENT_SECRET=${OAUTH_GOOGLE_CLIENT_SECRET}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - POLAR_ACCESS_TOKEN=${POLAR_ACCESS_TOKEN}
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/app
+      - go_mod_cache:/go/pkg/mod
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: go run main.go
+    restart: unless-stopped
+
+  # Redis for caching and sessions
+  redis:
+    image: redis:7-alpine
+    container_name: cogent-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Frontend development server
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: cogent-frontend
+    environment:
+      - VITE_API_URL=http://localhost:8080
+      - VITE_APP_NAME=COGENT
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - node_modules:/app/node_modules
+    command: npm run dev
+    restart: unless-stopped
+
+  # MCP Server
+  mcp-server:
+    build:
+      context: ./mcp-server
+      dockerfile: Dockerfile.dev
+    container_name: cogent-mcp-server
+    environment:
+      - BACKEND_API_URL=http://backend:8080
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./mcp-server:/app
+      - go_mod_cache:/go/pkg/mod
+    depends_on:
+      - backend
+    command: go run main.go
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  go_mod_cache:
+  node_modules:
