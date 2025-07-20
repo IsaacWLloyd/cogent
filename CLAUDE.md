@@ -6,6 +6,9 @@ COGENT is a Claude Code (and eventually all coding agents) enhancement tool that
 
 ## Development Best Practices
 
+### questions.
+- if you are working and come across something you are unsure about ask for my input before continuing
+
 ### Code Organization
 - **Modularity First**: Keep components small, focused, and reusable
 - **Clear Separation**: Maintain strict boundaries between backend, frontend, and MCP layers
@@ -17,7 +20,6 @@ COGENT is a Claude Code (and eventually all coding agents) enhancement tool that
 - **Unit Tests**: Test individual functions and components in isolation
 - **Integration Tests**: Test API endpoints and component interactions
 - **E2E Tests**: Test critical user flows (auth, documentation generation, search)
-- **Test Before Deploy**: All PRs must pass CI/CD tests
 
 ### Version Control
 - **Atomic Commits**: Each commit should represent one logical change
@@ -31,7 +33,7 @@ COGENT is a Claude Code (and eventually all coding agents) enhancement tool that
 
 ### Documentation
 - **Code Comments**: Explain WHY, not WHAT
-- **API Documentation**: OpenAPI/Swagger for all endpoints
+- **API Documentation**: FastAPI automatic OpenAPI/Swagger generation
 - **README Files**: Each major directory should have its own README
 - **Architecture Decisions**: Document major decisions in ADRs (Architecture Decision Records)
 
@@ -50,7 +52,8 @@ COGENT is a Claude Code (and eventually all coding agents) enhancement tool that
 Don't worry about this until later 
 - **Lazy Loading**: Load resources only when needed
 - **Caching Strategy**: Cache expensive operations (searches, LLM calls)
-- **Database Indexes**: Optimize queries with proper indexing
+- **Database Indexes**: SQLAlchemy query optimization with proper indexing
+- **Async Operations**: FastAPI async/await for non-blocking operations
 - **Monitoring**: Track response times and resource usage
 
 ## Architecture
@@ -58,28 +61,30 @@ Don't worry about this until later
 ### System Components
 
 1. **Monorepo Structure**
-   - `/backend` - Go backend with PostgreSQL
+   - `/backend` - Python FastAPI backend with SQLAlchemy
    - `/frontend` - React + Vite web application  
-   - `/mcp-server` - Model Context Protocol server
+   - `/mcp-server` - PydanticAI Model Context Protocol server
    - `/hooks` - Claude Code hook implementations
    - `/shared` - Shared types and utilities
 
 2. **Backend Stack**
-   - Language: Go
-   - Database: PostgreSQL
-   - Auth: OAuth 2.0 (GitHub, Google)
-   - API: RESTful + WebSocket for real-time updates
+   - Language: Python with FastAPI
+   - Database: SQLAlchemy (PostgreSQL for production, SQLite for development)
+   - Auth: FastAPI OAuth2 with JWT tokens (GitHub, Google)
+   - API: RESTful with automatic OpenAPI documentation
 
 3. **Frontend Stack**
    - Framework: React with Vite
    - UI: SHADCN Modern dashboard interface
    - State Management: TBD based on complexity
 
-4. **MCP Server**
-   - Searches documentation files
-   - Validates relevance using LLMs
-   - Injects context into Claude Code
-   - Communicates with backend via API
+4. **MCP Server (PydanticAI)**
+   - Standalone Python module using PydanticAI framework
+   - Searches documentation files with type-safe operations
+   - Validates relevance using LLMs with Pydantic models
+   - Injects context into Claude Code via MCP protocol
+   - Communicates with FastAPI backend via HTTP API
+   - Supports stdio and HTTP/SSE transport mechanisms
 
 ## How COGENT Works
 
@@ -99,16 +104,16 @@ Don't worry about this until later
 ### 2. Context Retrieval Flow
 
 1. **Search Phase**: Hybrid search using:
-   - Full-text PostgreSQL search
+   - Full-text SQLAlchemy search with PostgreSQL
    - Vector embeddings for semantic matching
-2. **Relevance Validation**: LLM validates search results
-3. **Context Injection**: Relevant docs provided to Claude Code
+2. **Relevance Validation**: PydanticAI agent validates search results with type-safe models. more specifically we ask 1 agent per potential match if it believes it is the right place for Claude COde to make changes. In parallel
+3. **Context Injection**: Relevant docs provided to Claude Code via MCP protocol
 
 ### 3. Authentication & Security
 
-- **Web App**: OAuth 2.0 (GitHub + Google)
-- **MCP Server**: Per-project API keys
-- **Documentation**: Configurable visibility per project
+- **Web App**: FastAPI OAuth2 with JWT tokens (GitHub + Google)
+- **MCP Server**: Per-project API keys with secure token validation
+- **Documentation**: Configurable visibility per project. Users can choose wether the documents are in there git repo
 
 ## Payment Model
 
@@ -197,22 +202,17 @@ Don't worry about this until later
 
 ### Update Strategy
 
-- Incremental updates on file modification
+- Incremental documentation updates on file modification
 - Only changed sections updated
 - Git handles version control
 - No separate versioning system
+- because of branching in git we need to make the state of the project in the dashboard be tied to a commit in github. you should be able to view past commits or other branches easily. under the hood its connected by commit hash tho.
 
 ## Language Support
 
 ### Phase 1 Languages
 - JavaScript/TypeScript
 - Python
-- Go
-
-### Documentation Adapters
-- Language-specific parsing
-- Framework detection (React, Django, etc.)
-- Syntax-aware documentation
 
 ## Installation
 
@@ -253,6 +253,61 @@ curl -sSL https://usecogent.io/install | bash
 - Documentation visibility controls
 - No secrets in documentation
 - Secure hook execution environment
+
+## PydanticAI Best Practices
+
+### MCP Server Implementation
+- **Type Safety**: Use Pydantic models for all data validation and serialization
+- **Agent Architecture**: Structure agents with clear tool definitions and result validation
+- **Transport Selection**: 
+  - Use `stdio` transport for local development and testing
+  - Use `HTTP/SSE` transport for production deployments
+- **Error Handling**: Implement robust error handling with Pydantic validation errors
+- **Resource Management**: Properly manage agent lifecycle and cleanup
+
+### Integration Patterns
+- **Modular Design**: Keep MCP server separate from FastAPI backend for flexibility
+- **API Communication**: Use typed HTTP clients for backend communication
+- **Context Validation**: Validate retrieved documentation context before injection
+- **Tool Registration**: Register tools with clear schemas and documentation
+- **State Management**: Handle stateful MCP connections properly
+
+### Documentation Links
+- [PydanticAI Documentation](https://ai.pydantic.dev/)
+- [MCP Overview](https://ai.pydantic.dev/mcp/)
+- [MCP Server Implementation](https://ai.pydantic.dev/mcp/server/)
+- [MCP Client Usage](https://ai.pydantic.dev/mcp/client/)
+- [Agent Architecture Guide](https://ai.pydantic.dev/agents/)
+- [Type Safety with Pydantic](https://docs.pydantic.dev/latest/)
+
+### Code Examples
+
+```python
+# MCP Server with PydanticAI
+from pydantic_ai import Agent
+from pydantic_ai.mcp import MCPServerStdio
+from pydantic import BaseModel
+
+class DocumentationQuery(BaseModel):
+    query: str
+    project_id: str
+    max_results: int = 10
+
+class DocumentationResult(BaseModel):
+    content: str
+    file_path: str
+    relevance_score: float
+
+# Agent for documentation search and validation
+documentation_agent = Agent(
+    model='openai:gpt-4',
+    result_type=list[DocumentationResult],
+    system_prompt='You are a documentation search and relevance validation agent.'
+)
+```
+## Github connection
+
+- we need to connect to github for it to work because we are storing documentation in the users repos.
 
 ## Future Enhancements
 

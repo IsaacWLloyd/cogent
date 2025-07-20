@@ -1,0 +1,42 @@
+{
+  "name": "cogent",
+  "version": "1.0.0",
+  "description": "Code Organization and Generation Enhancement Tool",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "shared",
+    "hooks"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:mcp\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && python -m uvicorn main:app --reload --port 8000",
+    "dev:mcp": "cd mcp-server && python -m server",
+    "build": "npm run build:frontend",
+    "build:frontend": "cd frontend && npm run build",
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:frontend": "cd frontend && npm test",
+    "test:backend": "cd backend && python -m pytest",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && ruff check .",
+    "format": "npm run format:frontend && npm run format:backend",
+    "format:frontend": "cd frontend && npm run format",
+    "format:backend": "cd backend && ruff format .",
+    "setup": "npm install && cd frontend && npm install && cd ../backend && pip install -r requirements.txt && cd ../mcp-server && pip install -r requirements.txt"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/usecogent/cogent"
+  },
+  "author": "COGENT Team",
+  "license": "MIT"
+}

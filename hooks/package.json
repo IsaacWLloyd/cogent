@@ -1,0 +1,25 @@
+{
+  "name": "@cogent/hooks",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": {
+    "cogent-hook": "./cogent-hook.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint . --ext ts,js --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write \"*.{ts,js,json,md}\""
+  },
+  "dependencies": {
+    "commander": "^11.1.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.9.0",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "eslint": "^8.53.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.2.2"
+  }
+}
