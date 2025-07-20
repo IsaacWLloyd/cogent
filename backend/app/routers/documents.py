@@ -18,7 +18,7 @@ from app.core.responses import (
     success_response, error_response, not_found_error_response,
     validation_error_response
 )
-from shared.models import Document, CreateDocumentRequest, DocumentsResponse
+from shared.models import Document, DocumentCreate, DocumentsResponse
 from models import Project as ProjectModel, Document as DocumentModel, SearchIndex as SearchIndexModel
 
 logger = logging.getLogger(__name__)
@@ -133,7 +133,7 @@ async def list_documents(
 @router.post("/projects/{project_id}/documents")
 async def create_or_update_document(
     project_id: UUID,
-    request: CreateDocumentRequest,
+    request: DocumentCreate,
     current_user: TokenData = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):

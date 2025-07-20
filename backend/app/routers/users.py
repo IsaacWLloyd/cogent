@@ -16,7 +16,7 @@ from app.core.auth import get_current_user, TokenData
 from app.core.responses import (
     success_response, error_response, not_found_error_response
 )
-from shared.models import User, UpdateUserRequest, UsageStats, DailyUsage
+from shared.models import User, UserUpdate, UsageStats, DailyUsage
 from models import User as UserModel, Usage as UsageModel, Project as ProjectModel, Document as DocumentModel
 
 logger = logging.getLogger(__name__)
@@ -69,7 +69,7 @@ async def get_user_profile(
 
 @router.put("/user/profile")
 async def update_user_profile(
-    request: UpdateUserRequest,
+    request: UserUpdate,
     current_user: TokenData = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):

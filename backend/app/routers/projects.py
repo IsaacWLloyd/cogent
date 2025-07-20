@@ -17,7 +17,7 @@ from app.core.responses import (
     success_response, error_response, not_found_error_response,
     conflict_error_response, validation_error_response
 )
-from shared.models import Project, CreateProjectRequest, UpdateProjectRequest, ProjectsResponse
+from shared.models import Project, ProjectCreate, ProjectUpdate, ProjectsResponse
 from models import Project as ProjectModel, User as UserModel
 
 logger = logging.getLogger(__name__)
@@ -82,7 +82,7 @@ async def list_projects(
 
 @router.post("/projects", status_code=status.HTTP_201_CREATED)
 async def create_project(
-    request: CreateProjectRequest,
+    request: ProjectCreate,
     current_user: TokenData = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
@@ -190,7 +190,7 @@ async def get_project(
 @router.put("/projects/{project_id}")
 async def update_project(
     project_id: UUID,
-    request: UpdateProjectRequest,
+    request: ProjectUpdate,
     current_user: TokenData = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):

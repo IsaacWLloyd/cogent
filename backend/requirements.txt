@@ -7,6 +7,7 @@ sqlalchemy==2.0.23
 alembic==1.12.1
 psycopg2-binary==2.9.9  # PostgreSQL adapter
 asyncpg==0.29.0  # Async PostgreSQL
+aiosqlite==0.19.0  # Async SQLite
 pgvector==0.2.4  # Vector search extension
 
 # Authentication & Security

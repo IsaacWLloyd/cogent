@@ -72,11 +72,13 @@ def client(db_session):
 @pytest.fixture
 def test_user(db_session):
     """Create test user"""
+    from datetime import datetime
     user = User(
         id=str(uuid.uuid4()),
         email="test@example.com",
         name="Test User",
-        github_id="123456"
+        github_id="123456",
+        created_at=datetime.utcnow()
     )
     db_session.add(user)
     db_session.commit()
@@ -87,12 +89,14 @@ def test_user(db_session):
 @pytest.fixture
 def test_project(db_session, test_user):
     """Create test project"""
+    from datetime import datetime
     project = Project(
         id=str(uuid.uuid4()),
         name="Test Project",
         user_id=test_user.id,
         repo_url="https://github.com/test/repo",
-        api_key=str(uuid.uuid4())
+        api_key=str(uuid.uuid4()),
+        created_at=datetime.utcnow()
     )
     db_session.add(project)
     db_session.commit()
@@ -103,12 +107,15 @@ def test_project(db_session, test_user):
 @pytest.fixture
 def test_document(db_session, test_project):
     """Create test document"""
+    from datetime import datetime
     document = Document(
         id=str(uuid.uuid4()),
         project_id=test_project.id,
         file_path="src/test.py",
         content="# Test file\nprint('hello world')",
-        summary="Test Python file"
+        summary="Test Python file",
+        created_at=datetime.utcnow(),
+        updated_at=datetime.utcnow()
     )
     db_session.add(document)
     db_session.commit()
