@@ -8,8 +8,11 @@ import logging
 import sys
 import os
 
-# Add current directory to path for imports
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# Add current directory and parent directory to path for imports
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(current_dir)
+sys.path.append(parent_dir)
 
 from sqlalchemy.orm import Session
 from app.core.database import create_database_engine, SessionLocal
