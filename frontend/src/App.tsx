@@ -4,7 +4,7 @@ import LandingPage from './pages/LandingPage'
 
 function App() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="dark min-h-screen bg-background text-foreground">
       <Navbar />
       <Routes>
         <Route path="/" element={<LandingPage />} />

@@ -23,10 +23,9 @@
     /* Path mapping */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@shared/*": ["../shared/*"]
+      "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "../shared/types.ts"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
