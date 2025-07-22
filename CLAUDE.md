@@ -52,26 +52,40 @@ COGENT is a Claude Code (and eventually all coding agents) enhancement tool that
 Don't worry about this until later 
 - **Lazy Loading**: Load resources only when needed
 - **Caching Strategy**: Cache expensive operations (searches, LLM calls)
-- **Database Indexes**: SQLAlchemy query optimization with proper indexing
+- **Database Indexes**: Neon automatic indexing with SQLAlchemy query optimization
+- **Connection Management**: Serverless connection pooling to handle function cold starts
 - **Async Operations**: FastAPI async/await for non-blocking operations
 - **Monitoring**: Track response times and resource usage
+
+### Serverless Considerations
+- **Cold Starts**: Minimize with smaller function bundles
+- **Function Timeout**: 10s for API routes, 60s for MCP operations
+- **Memory Limits**: 1GB default, 3GB for MCP functions
+- **Environment Variables**: Managed via Vercel dashboard
+- **Secrets**: Clerk keys, Neon connection strings, OpenRouter API keys
 
 ## Architecture
 
 ### System Components
 
 1. **Monorepo Structure**
-   - `/backend` - Python FastAPI backend with SQLAlchemy
-   - `/frontend` - React + Vite web application  
-   - `/mcp-server` - PydanticAI Model Context Protocol server
+   - `/frontend` - React + Vite web application (deployed to Vercel)
+   - `/api` - FastAPI backend as single Vercel Function
+     - `main.py` - Single FastAPI entry point with all routes
+   - `/mcp` - PydanticAI MCP server as separate Vercel Function
    - `/hooks` - Claude Code hook implementations
    - `/shared` - Shared types and utilities
+   - `vercel.json` - Routes /api/* to FastAPI, /mcp/* to MCP server
 
 2. **Backend Stack**
-   - Language: Python with FastAPI
-   - Database: SQLAlchemy (PostgreSQL for production, SQLite for development)
-   - Auth: FastAPI OAuth2 with JWT tokens (GitHub, Google)
-   - API: RESTful with automatic OpenAPI documentation
+   - Platform: Vercel Functions (Python runtime)
+   - Framework: FastAPI as monolithic application in `/api/main.py`
+   - Database: SQLAlchemy with Neon (PostgreSQL-compatible serverless database)
+   - Connection: Serverless-optimized with connection pooling via Neon's pooler
+   - Auth: Clerk integration for user authentication (GitHub, Google, Email)
+   - API Keys: Custom implementation for MCP server access
+   - API: RESTful with FastAPI routing, OpenAPI at /api/docs
+   - Entry: Single handler exports FastAPI app for Vercel
 
 3. **Frontend Stack**
    - Framework: React with Vite
@@ -79,12 +93,13 @@ Don't worry about this until later
    - State Management: TBD based on complexity
 
 4. **MCP Server (PydanticAI)**
-   - Standalone Python module using PydanticAI framework
+   - Vercel Function using PydanticAI framework
    - Searches documentation files with type-safe operations
    - Validates relevance using LLMs with Pydantic models
    - Injects context into Claude Code via MCP protocol
-   - Communicates with FastAPI backend via HTTP API
-   - Supports stdio and HTTP/SSE transport mechanisms
+   - Direct database access via Neon
+   - HTTP/SSE transport for serverless compatibility
+   - Connection reuse across invocations
 
 ## How COGENT Works
 
@@ -104,16 +119,18 @@ Don't worry about this until later
 ### 2. Context Retrieval Flow
 
 1. **Search Phase**: Hybrid search using:
-   - Full-text SQLAlchemy search with PostgreSQL
-   - Vector embeddings for semantic matching
+   - Full-text SQLAlchemy search with Neon PostgreSQL
+   - Vector embeddings with pgvector extension in Neon
+   - Serverless-optimized query patterns
 2. **Relevance Validation**: PydanticAI agent validates search results with type-safe models. more specifically we ask 1 agent per potential match if it believes it is the right place for Claude COde to make changes. In parallel
 3. **Context Injection**: Relevant docs provided to Claude Code via MCP protocol
 
 ### 3. Authentication & Security
 
-- **Web App**: FastAPI OAuth2 with JWT tokens (GitHub + Google)
-- **MCP Server**: Per-project API keys with secure token validation
-- **Documentation**: Configurable visibility per project. Users can choose wether the documents are in there git repo
+- **Web App**: Clerk authentication with webhooks for user sync
+- **MCP Server**: Per-project API keys stored in database with Clerk user association
+- **Documentation**: Configurable visibility per project. Users can choose whether the documents are in their git repo
+- **Session Management**: Clerk handles sessions, FastAPI validates via middleware
 
 ## Payment Model
 
@@ -147,7 +164,7 @@ Don't worry about this until later
 
 ### User Flow
 
-1. **Onboarding**: Run install script in repo → OAuth prompt → Project setup
+1. **Onboarding**: Run install script in repo → Clerk auth redirect → Project setup
 2. **Daily Use**: Access via web dashboard → Search docs → Configure settings
 3. **Integration**: MCP server uses project API key → Retrieves relevant context
 
@@ -223,6 +240,45 @@ curl -sSL https://usecogent.io/install | bash
 # Follow OAuth prompts
 # Configure project settings
 ```
+
+## Development Workflow
+
+### Local Development
+```bash
+# Install Bun
+curl -fsSL https://bun.sh/install | bash
+
+# Install Vercel CLI globally
+bun add -g vercel
+
+# Install dependencies
+bun install
+pip install -r requirements.txt
+
+# Set up environment variables
+cp .env.example .env.local
+# Add Clerk, Neon, and OpenRouter keys
+
+# Run development server
+vercel dev
+# Frontend: http://localhost:3000
+# API: http://localhost:3000/api
+# MCP: http://localhost:3000/mcp
+```
+
+### Deployment
+```bash
+# Preview deployment
+vercel
+
+# Production deployment
+vercel --prod
+```
+
+### Environment Management
+- Development: `.env.local` (git ignored)
+- Preview: Vercel dashboard environment variables
+- Production: Vercel dashboard with restricted access
 
 ## Configuration
 

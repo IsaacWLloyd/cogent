@@ -1,0 +1,50 @@
+{
+  "node": {
+    "7f38c82028f2b078c9f924f7252305bb9647b1c7ca": {
+      "workers": {
+        "app/about/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fisaac%2FWorkspaces%2Fcogent%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227f38c82028f2b078c9f924f7252305bb9647b1c7ca%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227f8e931ef3ef81d778c5b3dc8379cd5605330ccaba%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%2C%7B%22id%22%3A%227fc60e5755d79d954152f890c731390cdf11f561f2%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/about/page": "rsc"
+      }
+    },
+    "7f8e931ef3ef81d778c5b3dc8379cd5605330ccaba": {
+      "workers": {
+        "app/about/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fisaac%2FWorkspaces%2Fcogent%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227f38c82028f2b078c9f924f7252305bb9647b1c7ca%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227f8e931ef3ef81d778c5b3dc8379cd5605330ccaba%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%2C%7B%22id%22%3A%227fc60e5755d79d954152f890c731390cdf11f561f2%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/about/page": "rsc"
+      }
+    },
+    "7fc60e5755d79d954152f890c731390cdf11f561f2": {
+      "workers": {
+        "app/about/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fisaac%2FWorkspaces%2Fcogent%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fkeyless-actions.js%22%2C%5B%7B%22id%22%3A%227f38c82028f2b078c9f924f7252305bb9647b1c7ca%22%2C%22exportedName%22%3A%22deleteKeylessAction%22%7D%2C%7B%22id%22%3A%227f8e931ef3ef81d778c5b3dc8379cd5605330ccaba%22%2C%22exportedName%22%3A%22createOrReadKeylessAction%22%7D%2C%7B%22id%22%3A%227fc60e5755d79d954152f890c731390cdf11f561f2%22%2C%22exportedName%22%3A%22syncKeylessConfigAction%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/about/page": "rsc"
+      }
+    },
+    "7f242a2dfb7eabb626941d7436f3841c058d452a68": {
+      "workers": {
+        "app/about/page": {
+          "moduleId": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fisaac%2FWorkspaces%2Fcogent%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fserver-actions.js%22%2C%5B%7B%22id%22%3A%227f242a2dfb7eabb626941d7436f3841c058d452a68%22%2C%22exportedName%22%3A%22invalidateCacheAction%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/about/page": "action-browser"
+      }
+    }
+  },
+  "edge": {},
+  "encryptionKey": "YSFFHxGLOuB/gelkNx5PQUfP/XjuO4uSamDx5eOe87I="
+}

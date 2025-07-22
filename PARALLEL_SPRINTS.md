@@ -12,16 +12,19 @@ This document outlines the parallel sprint structure for developing COGENT in a 
 - Define shared types/interfaces
 - Create mock data generators
 - Set up monorepo structure with proper dependencies
+- Define Vercel function structure and routing
+- Set up vercel.json configuration
 
 ### Sprint 1: Core Infrastructure (3-4 hours - Parallel)
 
 #### Team 1: Backend Core
-- FastAPI application structure
-- SQLAlchemy models & migrations
+- FastAPI application in /api/main.py
+- Vercel handler setup for FastAPI
+- SQLAlchemy models with Neon connection
 - Basic CRUD endpoints for projects, documents, users
-- Mock authentication middleware
-- Error handling patterns
-- Logging infrastructure
+- Clerk webhook endpoints and middleware
+- Error handling for serverless environment
+- Structured logging for Vercel
 
 #### Team 2: Frontend Foundation
 - React + Vite setup with TypeScript
@@ -32,20 +35,30 @@ This document outlines the parallel sprint structure for developing COGENT in a 
 - Layout components (Dashboard, Sidebar, Header)
 
 #### Team 3: MCP Server
-- PydanticAI agent setup
+- PydanticAI agent as Vercel Function in /mcp
 - Tool definitions (search_documentation, validate_relevance)
-- Stdio and HTTP/SSE transport implementations
-- Mock backend API calls
+- HTTP/SSE transport for serverless
+- Direct Neon database access
 - Pydantic models for all data structures
-- Error handling and validation
+- Serverless-optimized error handling
+- Connection pooling for MCP operations
 
 #### Team 4: Database & Search
-- PostgreSQL setup with fallback to SQLite
-- Full-text search implementation with SQLAlchemy
-- Vector embedding infrastructure setup
+- Neon database setup with connection pooling
+- Full-text search with Neon's PostgreSQL
+- pgvector setup for embeddings
+- Serverless connection patterns
 - Database seeding scripts
 - Index optimization
 - Migration scripts
+
+#### Team 5: Vercel Configuration
+- vercel.json setup with proper routing
+- Environment variable configuration
+- Build settings for frontend and functions
+- Development server configuration
+- Function memory and timeout limits
+- CORS and security headers
 
 ### Sprint 2: Feature Implementation (3-4 hours - Parallel)
 
@@ -58,12 +71,12 @@ This document outlines the parallel sprint structure for developing COGENT in a 
 - Cross-reference updating
 
 #### Team 2: Authentication & Security
-- OAuth2 implementation with FastAPI
-- JWT token generation and validation
-- GitHub and Google OAuth providers
-- API key generation for MCP access
-- Rate limiting middleware
-- Permission system for projects
+- Clerk webhook integration with FastAPI
+- Clerk middleware for request validation
+- User sync from Clerk to database
+- API key generation for MCP access (custom)
+- Rate limiting middleware with Clerk user IDs
+- Permission system for projects tied to Clerk organizations
 
 #### Team 3: Frontend Features
 - Dashboard view with project list
@@ -144,10 +157,33 @@ This document outlines the parallel sprint structure for developing COGENT in a 
 3. **Dependency Issues**: Mock-first allows progress even if dependencies fail
 4. **Communication Gaps**: All contracts defined upfront in Sprint 0
 
+## Local Development Setup
+
+### Prerequisites
+- Bun (latest)
+- Python (latest)
+- Vercel CLI
+- Neon account
+- Clerk account
+
+### Quick Start
+1. Clone repository
+2. Install dependencies: `bun install && pip install -r requirements.txt`
+3. Configure `.env.local` with all keys
+4. Run `vercel dev` to start all services
+5. Access http://localhost:3000
+
+### Serverless Testing
+- Use `vercel dev` to simulate serverless environment
+- Test cold starts with function restarts
+- Monitor function logs in terminal
+- Use Vercel dashboard for production-like testing
+
 ## Tools & Technologies
 
-- **Backend**: Python, FastAPI, SQLAlchemy, PostgreSQL/SQLite
+- **Backend**: Python Vercel Functions, FastAPI, SQLAlchemy, Neon
 - **Frontend**: React, TypeScript, Vite, SHADCN UI
-- **MCP Server**: PydanticAI, Python
+- **MCP Server**: PydanticAI as Vercel Function
 - **Testing**: Pytest, Jest, Playwright
-- **Development**: Docker, Git, Make
+- **Deployment**: Vercel CLI, Git
+- **Development**: Vercel Dev for local testing
