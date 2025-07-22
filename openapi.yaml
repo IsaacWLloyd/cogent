@@ -1,89 +1,86 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
   title: COGENT API
-  description: API for Code Organization and Generation Enhancement Tool
+  description: Code Organization and Generation Enhancement Tool - API for managing documentation generation and search
   version: 1.0.0
   contact:
     name: COGENT Support
-    email: support@usecogent.io
+    url: https://usecogent.io
+  license:
+    name: MIT
 
 servers:
-  - url: https://api.usecogent.io/api/v1
+  - url: https://cogent.vercel.app/api
     description: Production server
-  - url: http://localhost:8000/api/v1
+  - url: http://localhost:3000/api
     description: Development server
 
 security:
-  - cookieAuth: []
-  - apiKeyAuth: []
+  - ClerkAuth: []
 
 paths:
-  /auth/login:
+  # Webhooks
+  /webhooks/clerk:
     post:
-      tags: [Authentication]
-      summary: OAuth login
+      tags:
+        - Webhooks
+      summary: Handle Clerk user events
+      description: Webhook endpoint for Clerk user lifecycle events (create, update, delete)
       security: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LoginRequest'
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum: [user.created, user.updated, user.deleted]
+                data:
+                  $ref: '#/components/schemas/ClerkUser'
       responses:
-        200:
-          description: Successful login
-          headers:
-            Set-Cookie:
-              description: HTTP-only cookies for access and refresh tokens
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginResponse'
-        400:
-          $ref: '#/components/responses/BadRequest'
-        401:
-          $ref: '#/components/responses/Unauthorized'
+        '200':
+          description: Webhook processed successfully
+        '400':
+          description: Invalid webhook payload
 
-  /auth/logout:
-    post:
-      tags: [Authentication]
-      summary: Clear authentication cookies
-      responses:
-        200:
-          description: Successfully logged out
-          headers:
-            Set-Cookie:
-              description: Cleared authentication cookies
-              schema:
-                type: string
-
-  /auth/refresh:
-    post:
-      tags: [Authentication]
-      summary: Refresh access token using refresh token
-      security:
-        - cookieAuth: []
-      responses:
-        200:
-          description: Token refreshed successfully
-          headers:
-            Set-Cookie:
-              description: New access token cookie
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RefreshResponse'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-
-  /projects:
+  # Authentication
+  /v1/auth/session:
     get:
-      tags: [Projects]
-      summary: List user's projects
+      tags:
+        - Authentication
+      summary: Get current user session
+      description: Validate session and return current user information
+      responses:
+        '200':
+          description: Session valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Session invalid or expired
+
+  /v1/auth/logout:
+    post:
+      tags:
+        - Authentication
+      summary: Logout user
+      description: Invalidate current session
+      responses:
+        '200':
+          description: Logout successful
+        '401':
+          description: No active session
+
+  # Projects
+  /v1/projects:
+    get:
+      tags:
+        - Projects
+      summary: List user projects
+      description: Get all projects for the authenticated user
       parameters:
         - name: limit
           in: query
@@ -99,8 +96,8 @@ paths:
             default: 0
             minimum: 0
       responses:
-        200:
-          description: List of projects
+        '200':
+          description: Projects retrieved successfully
           content:
             application/json:
               schema:
@@ -116,12 +113,12 @@ paths:
                     type: integer
                   offset:
                     type: integer
-        401:
-          $ref: '#/components/responses/Unauthorized'
 
     post:
-      tags: [Projects]
+      tags:
+        - Projects
       summary: Create new project
+      description: Create a new project with GitHub repository
       requestBody:
         required: true
         content:
@@ -129,40 +126,50 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateProjectRequest'
       responses:
-        201:
+        '201':
           description: Project created successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Project'
-        400:
-          $ref: '#/components/responses/BadRequest'
-        401:
-          $ref: '#/components/responses/Unauthorized'
+        '400':
+          description: Invalid request data
+        '409':
+          description: Project with this repository already exists
 
-  /projects/{projectId}:
+  /v1/projects/{id}:
     get:
-      tags: [Projects]
+      tags:
+        - Projects
       summary: Get project details
       parameters:
-        - $ref: '#/components/parameters/projectId'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
-        200:
-          description: Project details
+        '200':
+          description: Project retrieved successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Project'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        404:
-          $ref: '#/components/responses/NotFound'
+        '404':
+          description: Project not found
 
     put:
-      tags: [Projects]
+      tags:
+        - Projects
       summary: Update project
       parameters:
-        - $ref: '#/components/parameters/projectId'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -170,59 +177,66 @@ paths:
             schema:
               $ref: '#/components/schemas/UpdateProjectRequest'
       responses:
-        200:
+        '200':
           description: Project updated successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Project'
-        400:
-          $ref: '#/components/responses/BadRequest'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        404:
-          $ref: '#/components/responses/NotFound'
+        '404':
+          description: Project not found
 
     delete:
-      tags: [Projects]
+      tags:
+        - Projects
       summary: Delete project
       parameters:
-        - $ref: '#/components/parameters/projectId'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
-        204:
+        '204':
           description: Project deleted successfully
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        404:
-          $ref: '#/components/responses/NotFound'
+        '404':
+          description: Project not found
 
-  /projects/{projectId}/documents:
+  # Documents
+  /v1/projects/{id}/documents:
     get:
-      tags: [Documents]
+      tags:
+        - Documents
       summary: List project documents
       parameters:
-        - $ref: '#/components/parameters/projectId'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
         - name: limit
           in: query
           schema:
             type: integer
             default: 50
-            minimum: 1
-            maximum: 200
         - name: offset
           in: query
           schema:
             type: integer
             default: 0
-            minimum: 0
-        - name: path
+        - name: language
           in: query
-          description: Filter by file path prefix
+          schema:
+            type: string
+        - name: path_pattern
+          in: query
           schema:
             type: string
       responses:
-        200:
-          description: List of documents
+        '200':
+          description: Documents retrieved successfully
           content:
             application/json:
               schema:
@@ -234,22 +248,18 @@ paths:
                       $ref: '#/components/schemas/Document'
                   total:
                     type: integer
-                  limit:
-                    type: integer
-                  offset:
-                    type: integer
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        404:
-          $ref: '#/components/responses/NotFound'
 
     post:
-      tags: [Documents]
+      tags:
+        - Documents
       summary: Create or update document
-      security:
-        - apiKeyAuth: []
       parameters:
-        - $ref: '#/components/parameters/projectId'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -257,34 +267,26 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateDocumentRequest'
       responses:
-        200:
-          description: Document updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Document'
-        201:
+        '201':
           description: Document created successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Document'
-        400:
-          $ref: '#/components/responses/BadRequest'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        404:
-          $ref: '#/components/responses/NotFound'
 
-  /projects/{projectId}/search:
+  # Search
+  /v1/projects/{id}/search:
     post:
-      tags: [Search]
+      tags:
+        - Search
       summary: Search project documents
-      security:
-        - cookieAuth: []
-        - apiKeyAuth: []
       parameters:
-        - $ref: '#/components/parameters/projectId'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -292,318 +294,760 @@ paths:
             schema:
               $ref: '#/components/schemas/SearchRequest'
       responses:
-        200:
-          description: Search results
+        '200':
+          description: Search completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+
+  # API Keys
+  /v1/projects/{id}/api-keys:
+    get:
+      tags:
+        - API Keys
+      summary: List project API keys
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: API keys retrieved successfully
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  results:
+                  api_keys:
                     type: array
                     items:
-                      $ref: '#/components/schemas/SearchResult'
-                  total:
-                    type: integer
-                  query:
-                    type: string
-        400:
-          $ref: '#/components/responses/BadRequest'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        404:
-          $ref: '#/components/responses/NotFound'
+                      $ref: '#/components/schemas/ApiKey'
 
-  /user/profile:
+    post:
+      tags:
+        - API Keys
+      summary: Create new API key
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  maxLength: 100
+              required:
+                - name
+      responses:
+        '201':
+          description: API key created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  api_key:
+                    $ref: '#/components/schemas/ApiKey'
+                  key:
+                    type: string
+                    description: The actual API key (only returned once)
+
+  /v1/projects/{id}/api-keys/{key_id}:
+    delete:
+      tags:
+        - API Keys
+      summary: Delete API key
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: key_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: API key deleted successfully
+        '404':
+          description: API key not found
+
+  # User Management
+  /v1/user/profile:
     get:
-      tags: [User]
+      tags:
+        - User
       summary: Get user profile
       responses:
-        200:
-          description: User profile
+        '200':
+          description: Profile retrieved successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-        401:
-          $ref: '#/components/responses/Unauthorized'
 
     put:
-      tags: [User]
+      tags:
+        - User
       summary: Update user profile
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateUserRequest'
+              type: object
+              properties:
+                name:
+                  type: string
+                  maxLength: 100
+                settings_json:
+                  type: object
       responses:
-        200:
+        '200':
           description: Profile updated successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-        400:
-          $ref: '#/components/responses/BadRequest'
-        401:
-          $ref: '#/components/responses/Unauthorized'
 
-  /user/usage:
+  /v1/user/usage:
     get:
-      tags: [User]
-      summary: Get usage statistics
+      tags:
+        - User
+      summary: Get user usage statistics
       parameters:
-        - name: from
+        - name: start_date
           in: query
-          description: Start date (ISO 8601)
           schema:
             type: string
-            format: date-time
-        - name: to
+            format: date
+        - name: end_date
           in: query
-          description: End date (ISO 8601)
           schema:
             type: string
-            format: date-time
+            format: date
+        - name: project_id
+          in: query
+          schema:
+            type: string
+            format: uuid
       responses:
-        200:
-          description: Usage statistics
+        '200':
+          description: Usage statistics retrieved successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/UsageStats'
-        401:
-          $ref: '#/components/responses/Unauthorized'
+
+  # GitHub Integration
+  /v1/github/repos:
+    get:
+      tags:
+        - GitHub
+      summary: List accessible repositories
+      parameters:
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            default: 30
+            maximum: 100
+      responses:
+        '200':
+          description: Repositories retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  repositories:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GitHubRepository'
+
+  /v1/github/repos/{owner}/{repo}/files:
+    get:
+      tags:
+        - GitHub
+      summary: List repository files
+      parameters:
+        - name: owner
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: repo
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: query
+          schema:
+            type: string
+            default: ""
+        - name: ref
+          in: query
+          schema:
+            type: string
+            default: "main"
+      responses:
+        '200':
+          description: Files retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GitHubFile'
+
+    put:
+      tags:
+        - GitHub
+      summary: Create or update file
+      parameters:
+        - name: owner
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: repo
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GitHubFileUpdate'
+      responses:
+        '200':
+          description: File updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitHubFile'
 
 components:
   securitySchemes:
-    cookieAuth:
-      type: apiKey
-      in: cookie
-      name: access_token
-    apiKeyAuth:
-      type: apiKey
-      in: header
-      name: X-API-Key
-
-  parameters:
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: Project UUID
-      schema:
-        type: string
-        format: uuid
+    ClerkAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Clerk session token
 
   schemas:
+    # Core Entities
     User:
       type: object
-      required: [id, email, createdAt]
       properties:
         id:
           type: string
           format: uuid
+        clerk_id:
+          type: string
         email:
           type: string
           format: email
         name:
           type: string
-          nullable: true
-        githubId:
-          type: string
-          nullable: true
-        googleId:
-          type: string
-          nullable: true
-        createdAt:
+        created_at:
           type: string
           format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        settings_json:
+          type: object
+          nullable: true
+        last_seen:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+        - id
+        - clerk_id
+        - email
+        - name
+        - created_at
+        - updated_at
 
     Project:
       type: object
-      required: [id, name, userId, apiKey, createdAt]
       properties:
         id:
           type: string
           format: uuid
         name:
           type: string
-        userId:
+        user_id:
           type: string
           format: uuid
-        repoUrl:
+        github_repo_url:
           type: string
-          nullable: true
-        apiKey:
-          type: string
-        createdAt:
+          format: uri
+        created_at:
           type: string
           format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        description:
+          type: string
+          nullable: true
+        visibility:
+          type: string
+          enum: [private, public]
+          default: private
+        settings_json:
+          type: object
+          nullable: true
+        branch_name:
+          type: string
+          default: main
+        include_patterns:
+          type: array
+          items:
+            type: string
+          default: ["**/*"]
+        exclude_patterns:
+          type: array
+          items:
+            type: string
+          default: ["node_modules/**", ".git/**"]
+      required:
+        - id
+        - name
+        - user_id
+        - github_repo_url
+        - created_at
+        - updated_at
 
     Document:
       type: object
-      required: [id, projectId, filePath, content, summary, createdAt, updatedAt]
       properties:
         id:
           type: string
           format: uuid
-        projectId:
+        project_id:
           type: string
           format: uuid
-        filePath:
+        file_path:
           type: string
         content:
           type: string
         summary:
           type: string
-        createdAt:
+        commit_hash:
+          type: string
+        created_at:
           type: string
           format: date-time
-        updatedAt:
+        updated_at:
           type: string
           format: date-time
+        version:
+          type: integer
+          default: 1
+        language:
+          type: string
+          nullable: true
+        imports:
+          type: array
+          items:
+            type: string
+          nullable: true
+        exports:
+          type: array
+          items:
+            type: string
+          nullable: true
+        references:
+          type: array
+          items:
+            type: string
+          nullable: true
+      required:
+        - id
+        - project_id
+        - file_path
+        - content
+        - summary
+        - commit_hash
+        - created_at
+        - updated_at
 
-    SearchResult:
+    ApiKey:
       type: object
-      required: [documentId, filePath, content, relevanceScore]
       properties:
-        documentId:
+        id:
           type: string
           format: uuid
-        filePath:
+        project_id:
           type: string
-        content:
+          format: uuid
+        name:
           type: string
-          description: Relevant excerpt from document
-        relevanceScore:
+        created_at:
+          type: string
+          format: date-time
+        last_used:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+        - id
+        - project_id
+        - name
+        - created_at
+
+    Usage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        project_id:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+        operation_type:
+          type: string
+          enum: [search, generate, mcp_call]
+        tokens_used:
+          type: integer
+        cost:
           type: number
-          format: float
-          minimum: 0
-          maximum: 1
-
-    LoginRequest:
-      type: object
-      required: [provider, code]
-      properties:
-        provider:
+          format: decimal
+        llm_model:
           type: string
-          enum: [github, google]
-        code:
+        endpoint_called:
           type: string
-          description: OAuth authorization code
+        response_time:
+          type: integer
+          nullable: true
+      required:
+        - id
+        - project_id
+        - timestamp
+        - operation_type
+        - tokens_used
+        - cost
+        - llm_model
+        - endpoint_called
 
-    LoginResponse:
-      type: object
-      required: [user, expiresAt]
-      properties:
-        user:
-          $ref: '#/components/schemas/User'
-        expiresAt:
-          type: string
-          format: date-time
-          description: Access token expiration time
-
-    RefreshResponse:
-      type: object
-      required: [expiresAt]
-      properties:
-        expiresAt:
-          type: string
-          format: date-time
-          description: New access token expiration time
-
+    # Request/Response Models
     CreateProjectRequest:
       type: object
-      required: [name]
       properties:
         name:
           type: string
-          minLength: 1
           maxLength: 100
-        repoUrl:
+        github_repo_url:
           type: string
+          format: uri
+        description:
+          type: string
+          maxLength: 500
           nullable: true
+        visibility:
+          type: string
+          enum: [private, public]
+          default: private
+        branch_name:
+          type: string
+          default: main
+        include_patterns:
+          type: array
+          items:
+            type: string
+        exclude_patterns:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - github_repo_url
 
     UpdateProjectRequest:
       type: object
       properties:
         name:
           type: string
-          minLength: 1
           maxLength: 100
-        repoUrl:
+        description:
           type: string
+          maxLength: 500
           nullable: true
+        visibility:
+          type: string
+          enum: [private, public]
+        settings_json:
+          type: object
+        branch_name:
+          type: string
+        include_patterns:
+          type: array
+          items:
+            type: string
+        exclude_patterns:
+          type: array
+          items:
+            type: string
 
     CreateDocumentRequest:
       type: object
-      required: [filePath, content, summary]
       properties:
-        filePath:
+        file_path:
           type: string
         content:
           type: string
         summary:
           type: string
-
-    UpdateUserRequest:
-      type: object
-      properties:
-        name:
+          maxLength: 500
+        commit_hash:
+          type: string
+        language:
           type: string
           nullable: true
-          maxLength: 100
+        imports:
+          type: array
+          items:
+            type: string
+        exports:
+          type: array
+          items:
+            type: string
+        references:
+          type: array
+          items:
+            type: string
+      required:
+        - file_path
+        - content
+        - summary
+        - commit_hash
 
     SearchRequest:
       type: object
-      required: [query]
       properties:
         query:
           type: string
-          minLength: 1
-        limit:
+          maxLength: 500
+        search_type:
+          type: string
+          enum: [full_text, semantic, hybrid]
+          default: hybrid
+        max_results:
           type: integer
           default: 10
           minimum: 1
           maximum: 50
-        offset:
-          type: integer
-          default: 0
-          minimum: 0
+        filters:
+          type: object
+          properties:
+            language:
+              type: string
+            file_patterns:
+              type: array
+              items:
+                type: string
+            date_range:
+              type: object
+              properties:
+                start:
+                  type: string
+                  format: date-time
+                end:
+                  type: string
+                  format: date-time
+      required:
+        - query
 
-    UsageStats:
+    SearchResponse:
       type: object
-      required: [totalTokens, totalCost, documentsGenerated, searchesPerformed]
       properties:
-        totalTokens:
-          type: integer
-        totalCost:
-          type: number
-          format: float
-        documentsGenerated:
-          type: integer
-        searchesPerformed:
-          type: integer
-        dailyUsage:
+        results:
           type: array
           items:
             type: object
-            required: [date, tokens, cost]
+            properties:
+              document:
+                $ref: '#/components/schemas/Document'
+              score:
+                type: number
+                format: float
+              highlights:
+                type: array
+                items:
+                  type: string
+        total_results:
+          type: integer
+        search_time_ms:
+          type: integer
+      required:
+        - results
+        - total_results
+        - search_time_ms
+
+    UsageStats:
+      type: object
+      properties:
+        total_operations:
+          type: integer
+        total_tokens:
+          type: integer
+        total_cost:
+          type: number
+          format: decimal
+        operations_by_type:
+          type: object
+          properties:
+            search:
+              type: integer
+            generate:
+              type: integer
+            mcp_call:
+              type: integer
+        daily_usage:
+          type: array
+          items:
+            type: object
             properties:
               date:
                 type: string
                 format: date
+              operations:
+                type: integer
               tokens:
                 type: integer
               cost:
                 type: number
-                format: float
+                format: decimal
 
-    Error:
+    # GitHub Models
+    GitHubRepository:
       type: object
-      required: [error, message]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        full_name:
+          type: string
+        private:
+          type: boolean
+        html_url:
+          type: string
+          format: uri
+        description:
+          type: string
+          nullable: true
+        default_branch:
+          type: string
+        permissions:
+          type: object
+          properties:
+            admin:
+              type: boolean
+            push:
+              type: boolean
+            pull:
+              type: boolean
+
+    GitHubFile:
+      type: object
+      properties:
+        name:
+          type: string
+        path:
+          type: string
+        sha:
+          type: string
+        size:
+          type: integer
+        type:
+          type: string
+          enum: [file, dir]
+        content:
+          type: string
+          nullable: true
+        encoding:
+          type: string
+          nullable: true
+
+    GitHubFileUpdate:
+      type: object
+      properties:
+        path:
+          type: string
+        content:
+          type: string
+        message:
+          type: string
+        branch:
+          type: string
+          default: main
+        sha:
+          type: string
+          nullable: true
+      required:
+        - path
+        - content
+        - message
+
+    # Clerk Models
+    ClerkUser:
+      type: object
+      properties:
+        id:
+          type: string
+        email_addresses:
+          type: array
+          items:
+            type: object
+            properties:
+              email_address:
+                type: string
+              id:
+                type: string
+        first_name:
+          type: string
+          nullable: true
+        last_name:
+          type: string
+          nullable: true
+        created_at:
+          type: integer
+        updated_at:
+          type: integer
+
+    # Error Models
+    ErrorResponse:
+      type: object
       properties:
         error:
           type: string
@@ -611,7 +1055,10 @@ components:
           type: string
         details:
           type: object
-          additionalProperties: true
+          nullable: true
+      required:
+        - error
+        - message
 
   responses:
     BadRequest:
@@ -619,30 +1066,25 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
-    
+            $ref: '#/components/schemas/ErrorResponse'
+
     Unauthorized:
       description: Unauthorized
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
-    
+            $ref: '#/components/schemas/ErrorResponse'
+
     NotFound:
       description: Resource not found
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/ErrorResponse'
 
-tags:
-  - name: Authentication
-    description: OAuth and token management
-  - name: Projects
-    description: Project management operations
-  - name: Documents
-    description: Document creation and retrieval
-  - name: Search
-    description: Document search functionality
-  - name: User
-    description: User profile and usage
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

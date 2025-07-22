@@ -245,14 +245,11 @@ curl -sSL https://usecogent.io/install | bash
 
 ### Local Development
 ```bash
-# Install Bun
-curl -fsSL https://bun.sh/install | bash
-
 # Install Vercel CLI globally
-bun add -g vercel
+npm install -g vercel
 
 # Install dependencies
-bun install
+npm install
 pip install -r requirements.txt
 
 # Set up environment variables

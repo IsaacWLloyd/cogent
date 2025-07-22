@@ -1,0 +1,1217 @@
+[
+  {
+    "id": "8b67e956-c535-48ff-84c8-bb4ffea9f0f6",
+    "project_id": "da4e6442-ea56-4683-a34e-9b4b8f8fe669",
+    "file_path": "src/models/document.java",
+    "content": "// Java code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains data models for project handling.",
+    "commit_hash": "c7ace08b9e77b",
+    "created_at": "2024-10-23T14:55:09.808595",
+    "updated_at": "2024-12-07T14:55:09.808595",
+    "version": 2,
+    "language": "java",
+    "imports": [
+      "lodash",
+      "bcrypt"
+    ],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "6bcaa5cf-0443-4853-a062-1a31c4174e47",
+    "project_id": "da4e6442-ea56-4683-a34e-9b4b8f8fe669",
+    "file_path": "src/utils/document.rb",
+    "content": "// Ruby code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains authentication logic for search functionality.",
+    "commit_hash": "3cfd32570da10",
+    "created_at": "2024-10-21T14:55:09.808595",
+    "updated_at": "2024-12-05T14:55:09.808595",
+    "version": 2,
+    "language": "ruby",
+    "imports": [
+      "moment",
+      "helmet"
+    ],
+    "exports": [
+      "DatabasePool",
+      "AuthService"
+    ],
+    "references": []
+  },
+  {
+    "id": "baad0bd0-f8e4-4675-8372-14b43431dcba",
+    "project_id": "da4e6442-ea56-4683-a34e-9b4b8f8fe669",
+    "file_path": "src/components/auth.py",
+    "content": "\"\"\"\nDatabase connection and query utilities\n\"\"\"\nimport asyncio\nimport asyncpg\nfrom contextlib import asynccontextmanager\n\nclass DatabasePool:\n    def __init__(self, connection_url):\n        self.connection_url = connection_url\n        self.pool = None\n    \n    async def initialize(self):\n        self.pool = await asyncpg.create_pool(self.connection_url)\n    \n    @asynccontextmanager\n    async def get_connection(self):\n        async with self.pool.acquire() as conn:\n            yield conn",
+    "summary": "This file contains utility functions for project handling.",
+    "commit_hash": "b90a400fff577",
+    "created_at": "2024-10-18T14:55:09.808595",
+    "updated_at": "2024-11-27T14:55:09.808595",
+    "version": 4,
+    "language": "python",
+    "imports": [
+      "axios",
+      "bcrypt"
+    ],
+    "exports": [
+      "DatabasePool",
+      "Document"
+    ],
+    "references": [
+      "src/types/user.ts",
+      "src/config/app.js"
+    ]
+  },
+  {
+    "id": "3d5ef7c4-b02b-4a2c-bd0d-fd4ad655ce91",
+    "project_id": "da4e6442-ea56-4683-a34e-9b4b8f8fe669",
+    "file_path": "src/services/project.kt",
+    "content": "// Kotlin code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains utility functions for document processing.",
+    "commit_hash": "87b6cb61b0b6a",
+    "created_at": "2024-10-18T14:55:09.808595",
+    "updated_at": "2024-11-30T14:55:09.808595",
+    "version": 1,
+    "language": "kotlin",
+    "imports": [
+      "uuid",
+      "helmet"
+    ],
+    "exports": [
+      "generateHash",
+      "User"
+    ],
+    "references": [
+      "src/types/project.ts",
+      "src/config/app.js"
+    ]
+  },
+  {
+    "id": "a2caf980-11c7-4dfc-ac1a-cc474d7929c7",
+    "project_id": "da4e6442-ea56-4683-a34e-9b4b8f8fe669",
+    "file_path": "src/utils/project.php",
+    "content": "// Php code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains API endpoints for user management.",
+    "commit_hash": "b1be6de3509ae",
+    "created_at": "2024-10-23T14:55:09.808595",
+    "updated_at": "2024-11-30T14:55:09.808595",
+    "version": 1,
+    "language": "php",
+    "imports": [],
+    "exports": [],
+    "references": [
+      "src/types/project.ts",
+      "src/config/database.js"
+    ]
+  },
+  {
+    "id": "b6739066-ccea-4105-bea0-e21f21c681a3",
+    "project_id": "da4e6442-ea56-4683-a34e-9b4b8f8fe669",
+    "file_path": "src/components/auth.js",
+    "content": "// Authentication utility functions\nexport function validateToken(token) {\n    if (!token) return false;\n    try {\n        const decoded = jwt.verify(token, process.env.JWT_SECRET);\n        return decoded.userId;\n    } catch (error) {\n        return false;\n    }\n}\n\nexport function generateApiKey() {\n    return crypto.randomBytes(32).toString('hex');\n}",
+    "summary": "This file contains authentication logic for user management.",
+    "commit_hash": "db20da3a1df2f",
+    "created_at": "2024-10-30T14:55:09.808595",
+    "updated_at": "2024-12-05T14:55:09.808595",
+    "version": 2,
+    "language": "javascript",
+    "imports": [
+      "moment",
+      "cors"
+    ],
+    "exports": [],
+    "references": [
+      "src/types/project.ts",
+      "src/config/database.js"
+    ]
+  },
+  {
+    "id": "49246b3d-7419-487e-a226-5233fab0fd57",
+    "project_id": "da4e6442-ea56-4683-a34e-9b4b8f8fe669",
+    "file_path": "src/services/document.php",
+    "content": "// Php code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains data models for search functionality.",
+    "commit_hash": "9ce9dd6778845",
+    "created_at": "2024-10-27T14:55:09.808595",
+    "updated_at": "2024-12-06T14:55:09.808595",
+    "version": 2,
+    "language": "php",
+    "imports": [],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "f802dbee-6246-4f60-818d-de20c045fc81",
+    "project_id": "da4e6442-ea56-4683-a34e-9b4b8f8fe669",
+    "file_path": "src/components/auth.java",
+    "content": "// Java code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains utility functions for project handling.",
+    "commit_hash": "29ab23a19f795",
+    "created_at": "2024-11-10T14:55:09.808595",
+    "updated_at": "2024-12-07T14:55:09.808595",
+    "version": 3,
+    "language": "java",
+    "imports": [],
+    "exports": [],
+    "references": [
+      "src/types/user.ts",
+      "src/config/app.js"
+    ]
+  },
+  {
+    "id": "05bb0d7b-2e37-4202-972c-a1b97f9c09f2",
+    "project_id": "da4e6442-ea56-4683-a34e-9b4b8f8fe669",
+    "file_path": "src/utils/document.py",
+    "content": "\"\"\"\nDatabase connection and query utilities\n\"\"\"\nimport asyncio\nimport asyncpg\nfrom contextlib import asynccontextmanager\n\nclass DatabasePool:\n    def __init__(self, connection_url):\n        self.connection_url = connection_url\n        self.pool = None\n    \n    async def initialize(self):\n        self.pool = await asyncpg.create_pool(self.connection_url)\n    \n    @asynccontextmanager\n    async def get_connection(self):\n        async with self.pool.acquire() as conn:\n            yield conn",
+    "summary": "This file contains authentication logic for project handling.",
+    "commit_hash": "308fbb52ba980",
+    "created_at": "2024-10-16T14:55:09.808595",
+    "updated_at": "2024-11-27T14:55:09.808595",
+    "version": 4,
+    "language": "python",
+    "imports": [
+      "axios",
+      "bcrypt"
+    ],
+    "exports": [
+      "validateToken",
+      "User"
+    ],
+    "references": []
+  },
+  {
+    "id": "485a0379-12fd-4b54-a57c-662080ee61e0",
+    "project_id": "da4e6442-ea56-4683-a34e-9b4b8f8fe669",
+    "file_path": "src/components/user.kt",
+    "content": "// Kotlin code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains API endpoints for project handling.",
+    "commit_hash": "a1b409c5743bc",
+    "created_at": "2024-10-27T14:55:09.808595",
+    "updated_at": "2024-12-05T14:55:09.808595",
+    "version": 4,
+    "language": "kotlin",
+    "imports": [],
+    "exports": [
+      "validateToken",
+      "AuthService"
+    ],
+    "references": [
+      "src/types/api.ts",
+      "src/config/database.js"
+    ]
+  },
+  {
+    "id": "9ab2889d-ded1-4d87-bfdc-abd897e381b5",
+    "project_id": "da4e6442-ea56-4683-a34e-9b4b8f8fe669",
+    "file_path": "src/components/user.js",
+    "content": "// Authentication utility functions\nexport function validateToken(token) {\n    if (!token) return false;\n    try {\n        const decoded = jwt.verify(token, process.env.JWT_SECRET);\n        return decoded.userId;\n    } catch (error) {\n        return false;\n    }\n}\n\nexport function generateApiKey() {\n    return crypto.randomBytes(32).toString('hex');\n}",
+    "summary": "This file contains API endpoints for search functionality.",
+    "commit_hash": "94bcf9c3aafd4",
+    "created_at": "2024-10-28T14:55:09.808595",
+    "updated_at": "2024-12-04T14:55:09.808595",
+    "version": 4,
+    "language": "javascript",
+    "imports": [
+      "express",
+      "bcrypt"
+    ],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "93ceb445-f928-4e30-adfb-442edada485c",
+    "project_id": "da4e6442-ea56-4683-a34e-9b4b8f8fe669",
+    "file_path": "src/models/api.cs",
+    "content": "// Csharp code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains authentication logic for project handling.",
+    "commit_hash": "490722b821783",
+    "created_at": "2024-10-22T14:55:09.808595",
+    "updated_at": "2024-12-04T14:55:09.808595",
+    "version": 1,
+    "language": "csharp",
+    "imports": [
+      "moment",
+      "dotenv"
+    ],
+    "exports": [
+      "validateToken",
+      "User"
+    ],
+    "references": []
+  },
+  {
+    "id": "c6894467-ec9f-491e-b738-99b2e977d1dc",
+    "project_id": "b111be52-8ddd-4f20-bc2e-861c46222b93",
+    "file_path": "src/components/api.php",
+    "content": "// Php code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains utility functions for project handling.",
+    "commit_hash": "29f49df3cf5a1",
+    "created_at": "2024-10-10T14:55:09.808595",
+    "updated_at": "2024-09-25T14:55:09.808595",
+    "version": 2,
+    "language": "php",
+    "imports": [
+      "moment",
+      "cors"
+    ],
+    "exports": [
+      "validateToken",
+      "User"
+    ],
+    "references": []
+  },
+  {
+    "id": "5880c9ec-6105-43ae-8920-3671d479fa2c",
+    "project_id": "b111be52-8ddd-4f20-bc2e-861c46222b93",
+    "file_path": "src/services/user.rb",
+    "content": "// Ruby code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains data models for project handling.",
+    "commit_hash": "5c6954e001c7b",
+    "created_at": "2024-10-03T14:55:09.808595",
+    "updated_at": "2024-09-24T14:55:09.808595",
+    "version": 3,
+    "language": "ruby",
+    "imports": [
+      "react",
+      "dotenv"
+    ],
+    "exports": [
+      "validateToken",
+      "User"
+    ],
+    "references": []
+  },
+  {
+    "id": "fa8e9e70-c267-4aaa-bbd7-fd8a8d1fc167",
+    "project_id": "b111be52-8ddd-4f20-bc2e-861c46222b93",
+    "file_path": "src/utils/project.php",
+    "content": "// Php code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains utility functions for project handling.",
+    "commit_hash": "770359c3448c5",
+    "created_at": "2024-09-30T14:55:09.808595",
+    "updated_at": "2024-09-24T14:55:09.808595",
+    "version": 4,
+    "language": "php",
+    "imports": [
+      "uuid",
+      "helmet"
+    ],
+    "exports": [
+      "validateToken",
+      "Document"
+    ],
+    "references": [
+      "src/types/user.ts",
+      "src/config/database.js"
+    ]
+  },
+  {
+    "id": "8738ad4b-4d5b-40ee-8d52-b2960dce9b16",
+    "project_id": "b111be52-8ddd-4f20-bc2e-861c46222b93",
+    "file_path": "src/components/api.go",
+    "content": "// Go code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains API endpoints for document processing.",
+    "commit_hash": "608b23cff7faf",
+    "created_at": "2024-10-10T14:55:09.808595",
+    "updated_at": "2024-09-23T14:55:09.808595",
+    "version": 3,
+    "language": "go",
+    "imports": [],
+    "exports": [
+      "ApiClient",
+      "AuthService"
+    ],
+    "references": []
+  },
+  {
+    "id": "1c3cfa0f-2b28-4fea-bdc4-95251cc1d3b3",
+    "project_id": "b111be52-8ddd-4f20-bc2e-861c46222b93",
+    "file_path": "src/models/project.js",
+    "content": "// Authentication utility functions\nexport function validateToken(token) {\n    if (!token) return false;\n    try {\n        const decoded = jwt.verify(token, process.env.JWT_SECRET);\n        return decoded.userId;\n    } catch (error) {\n        return false;\n    }\n}\n\nexport function generateApiKey() {\n    return crypto.randomBytes(32).toString('hex');\n}",
+    "summary": "This file contains utility functions for user management.",
+    "commit_hash": "6dcdfa9d7cf9a",
+    "created_at": "2024-10-15T14:55:09.808595",
+    "updated_at": "2024-09-24T14:55:09.808595",
+    "version": 3,
+    "language": "javascript",
+    "imports": [],
+    "exports": [
+      "DatabasePool",
+      "User"
+    ],
+    "references": []
+  },
+  {
+    "id": "f9d15ee7-a0dc-43ef-be6a-d2091f7454e9",
+    "project_id": "b111be52-8ddd-4f20-bc2e-861c46222b93",
+    "file_path": "src/components/project.kt",
+    "content": "// Kotlin code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains database queries for project handling.",
+    "commit_hash": "86708681ed317",
+    "created_at": "2024-09-25T14:55:09.808595",
+    "updated_at": "2024-09-26T14:55:09.808595",
+    "version": 3,
+    "language": "kotlin",
+    "imports": [
+      "react",
+      "helmet"
+    ],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "30a3c341-b507-4141-b07d-675be975bc89",
+    "project_id": "b111be52-8ddd-4f20-bc2e-861c46222b93",
+    "file_path": "src/models/api.tsx",
+    "content": "interface User {\n  id: string;\n  email: string;\n  name: string;\n  createdAt: Date;\n}\n\ninterface Project {\n  id: string;\n  name: string;\n  userId: string;\n  repoUrl: string;\n}\n\nexport class ApiClient {\n  private baseUrl: string;\n  \n  constructor(baseUrl: string) {\n    this.baseUrl = baseUrl;\n  }\n  \n  async fetchProjects(): Promise<Project[]> {\n    const response = await fetch(`${this.baseUrl}/projects`);\n    return response.json();\n  }\n}",
+    "summary": "This file contains API endpoints for project handling.",
+    "commit_hash": "4203be029c988",
+    "created_at": "2024-10-16T14:55:09.808595",
+    "updated_at": "2024-09-24T14:55:09.808595",
+    "version": 4,
+    "language": "typescript",
+    "imports": [],
+    "exports": [
+      "ApiClient",
+      "AuthService"
+    ],
+    "references": [
+      "src/types/api.ts",
+      "src/config/database.js"
+    ]
+  },
+  {
+    "id": "baad6bad-ba2b-48de-ab52-9679e402d65c",
+    "project_id": "b111be52-8ddd-4f20-bc2e-861c46222b93",
+    "file_path": "src/components/document.go",
+    "content": "// Go code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains utility functions for search functionality.",
+    "commit_hash": "515b6a41f0bde",
+    "created_at": "2024-09-27T14:55:09.808595",
+    "updated_at": "2024-09-19T14:55:09.808595",
+    "version": 3,
+    "language": "go",
+    "imports": [
+      "express",
+      "cors"
+    ],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "ca15f06d-1168-4c88-b763-551700fbb3c9",
+    "project_id": "b111be52-8ddd-4f20-bc2e-861c46222b93",
+    "file_path": "src/components/project.rs",
+    "content": "// Rust code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains data models for search functionality.",
+    "commit_hash": "c65ee74aad5a8",
+    "created_at": "2024-10-17T14:55:09.808595",
+    "updated_at": "2024-09-18T14:55:09.808595",
+    "version": 3,
+    "language": "rust",
+    "imports": [
+      "react",
+      "helmet"
+    ],
+    "exports": [],
+    "references": [
+      "src/types/project.ts",
+      "src/config/database.js"
+    ]
+  },
+  {
+    "id": "0fd75b05-73f2-47b8-852c-f330a35428c2",
+    "project_id": "b111be52-8ddd-4f20-bc2e-861c46222b93",
+    "file_path": "src/services/project.tsx",
+    "content": "interface User {\n  id: string;\n  email: string;\n  name: string;\n  createdAt: Date;\n}\n\ninterface Project {\n  id: string;\n  name: string;\n  userId: string;\n  repoUrl: string;\n}\n\nexport class ApiClient {\n  private baseUrl: string;\n  \n  constructor(baseUrl: string) {\n    this.baseUrl = baseUrl;\n  }\n  \n  async fetchProjects(): Promise<Project[]> {\n    const response = await fetch(`${this.baseUrl}/projects`);\n    return response.json();\n  }\n}",
+    "summary": "This file contains authentication logic for user management.",
+    "commit_hash": "7b0620184989c",
+    "created_at": "2024-10-19T14:55:09.808595",
+    "updated_at": "2024-09-17T14:55:09.808595",
+    "version": 2,
+    "language": "typescript",
+    "imports": [],
+    "exports": [
+      "validateToken",
+      "Project"
+    ],
+    "references": []
+  },
+  {
+    "id": "63ac0bea-0e9f-4ce2-bfc3-ee4c2e653202",
+    "project_id": "b111be52-8ddd-4f20-bc2e-861c46222b93",
+    "file_path": "src/services/auth.tsx",
+    "content": "interface User {\n  id: string;\n  email: string;\n  name: string;\n  createdAt: Date;\n}\n\ninterface Project {\n  id: string;\n  name: string;\n  userId: string;\n  repoUrl: string;\n}\n\nexport class ApiClient {\n  private baseUrl: string;\n  \n  constructor(baseUrl: string) {\n    this.baseUrl = baseUrl;\n  }\n  \n  async fetchProjects(): Promise<Project[]> {\n    const response = await fetch(`${this.baseUrl}/projects`);\n    return response.json();\n  }\n}",
+    "summary": "This file contains data models for document processing.",
+    "commit_hash": "c323789cbcd0d",
+    "created_at": "2024-10-04T14:55:09.808595",
+    "updated_at": "2024-09-21T14:55:09.808595",
+    "version": 4,
+    "language": "typescript",
+    "imports": [
+      "moment",
+      "cors"
+    ],
+    "exports": [],
+    "references": [
+      "src/types/project.ts",
+      "src/config/app.js"
+    ]
+  },
+  {
+    "id": "b52eb6f9-07c5-44ad-a4bf-c6a624762ce1",
+    "project_id": "b111be52-8ddd-4f20-bc2e-861c46222b93",
+    "file_path": "src/services/document.kt",
+    "content": "// Kotlin code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains database queries for user management.",
+    "commit_hash": "6634bf5ec32aa",
+    "created_at": "2024-09-30T14:55:09.808595",
+    "updated_at": "2024-09-23T14:55:09.808595",
+    "version": 4,
+    "language": "kotlin",
+    "imports": [
+      "moment",
+      "helmet"
+    ],
+    "exports": [
+      "DatabasePool",
+      "Project"
+    ],
+    "references": []
+  },
+  {
+    "id": "81c029d2-7169-4c8f-ba95-510f7bf88915",
+    "project_id": "8c9110ae-5ae4-4686-a2cc-cc5d51612224",
+    "file_path": "src/components/project.kt",
+    "content": "// Kotlin code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains database queries for document processing.",
+    "commit_hash": "3052329f475b4",
+    "created_at": "2024-10-31T14:55:09.808595",
+    "updated_at": "2024-10-09T14:55:09.808595",
+    "version": 3,
+    "language": "kotlin",
+    "imports": [],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "c079d523-8481-4148-810e-e31b5a2a31b9",
+    "project_id": "8c9110ae-5ae4-4686-a2cc-cc5d51612224",
+    "file_path": "src/components/document.java",
+    "content": "// Java code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains authentication logic for project handling.",
+    "commit_hash": "d04f8f3e68971",
+    "created_at": "2024-10-27T14:55:09.808595",
+    "updated_at": "2024-10-06T14:55:09.808595",
+    "version": 4,
+    "language": "java",
+    "imports": [
+      "express",
+      "dotenv"
+    ],
+    "exports": [
+      "validateToken",
+      "AuthService"
+    ],
+    "references": []
+  },
+  {
+    "id": "85eb67a3-31f5-4158-b6d2-36f3281278a4",
+    "project_id": "8c9110ae-5ae4-4686-a2cc-cc5d51612224",
+    "file_path": "src/components/api.kt",
+    "content": "// Kotlin code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains API endpoints for user management.",
+    "commit_hash": "8d44a29ab9a64",
+    "created_at": "2024-10-09T14:55:09.808595",
+    "updated_at": "2024-10-05T14:55:09.808595",
+    "version": 5,
+    "language": "kotlin",
+    "imports": [
+      "moment",
+      "helmet"
+    ],
+    "exports": [
+      "DatabasePool",
+      "AuthService"
+    ],
+    "references": [
+      "src/types/api.ts",
+      "src/config/auth.js"
+    ]
+  },
+  {
+    "id": "3759bcef-ed14-41f4-ae96-0b6a7c2c1a51",
+    "project_id": "8c9110ae-5ae4-4686-a2cc-cc5d51612224",
+    "file_path": "src/models/project.py",
+    "content": "\"\"\"\nDatabase connection and query utilities\n\"\"\"\nimport asyncio\nimport asyncpg\nfrom contextlib import asynccontextmanager\n\nclass DatabasePool:\n    def __init__(self, connection_url):\n        self.connection_url = connection_url\n        self.pool = None\n    \n    async def initialize(self):\n        self.pool = await asyncpg.create_pool(self.connection_url)\n    \n    @asynccontextmanager\n    async def get_connection(self):\n        async with self.pool.acquire() as conn:\n            yield conn",
+    "summary": "This file contains API endpoints for document processing.",
+    "commit_hash": "dc765b856e564",
+    "created_at": "2024-10-29T14:55:09.808595",
+    "updated_at": "2024-10-04T14:55:09.808595",
+    "version": 4,
+    "language": "python",
+    "imports": [
+      "lodash",
+      "bcrypt"
+    ],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "6be935e7-dd6d-44eb-8d68-2dd19759f532",
+    "project_id": "8c9110ae-5ae4-4686-a2cc-cc5d51612224",
+    "file_path": "src/services/api.go",
+    "content": "// Go code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains utility functions for project handling.",
+    "commit_hash": "3f06dbc70c6a1",
+    "created_at": "2024-10-12T14:55:09.808595",
+    "updated_at": "2024-10-06T14:55:09.808595",
+    "version": 2,
+    "language": "go",
+    "imports": [
+      "react",
+      "bcrypt"
+    ],
+    "exports": [
+      "DatabasePool",
+      "AuthService"
+    ],
+    "references": []
+  },
+  {
+    "id": "4d40ce56-4462-46eb-90e5-76faa4efbfc5",
+    "project_id": "8c9110ae-5ae4-4686-a2cc-cc5d51612224",
+    "file_path": "src/components/api.cc",
+    "content": "// Cpp code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains authentication logic for search functionality.",
+    "commit_hash": "19ec6d7879bd3",
+    "created_at": "2024-10-16T14:55:09.808595",
+    "updated_at": "2024-10-08T14:55:09.808595",
+    "version": 4,
+    "language": "cpp",
+    "imports": [
+      "axios",
+      "jsonwebtoken"
+    ],
+    "exports": [
+      "generateHash",
+      "AuthService"
+    ],
+    "references": []
+  },
+  {
+    "id": "4f3ed92e-b2af-4474-ae25-0e467568976e",
+    "project_id": "8c9110ae-5ae4-4686-a2cc-cc5d51612224",
+    "file_path": "src/components/document.cc",
+    "content": "// Cpp code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains data models for search functionality.",
+    "commit_hash": "d1cdf03af3769",
+    "created_at": "2024-10-10T14:55:09.808595",
+    "updated_at": "2024-10-05T14:55:09.808595",
+    "version": 2,
+    "language": "cpp",
+    "imports": [
+      "moment",
+      "dotenv"
+    ],
+    "exports": [
+      "validateToken",
+      "User"
+    ],
+    "references": [
+      "src/types/user.ts",
+      "src/config/auth.js"
+    ]
+  },
+  {
+    "id": "e5fb8441-06a6-488c-9c12-b566fbdfe15c",
+    "project_id": "8c9110ae-5ae4-4686-a2cc-cc5d51612224",
+    "file_path": "src/services/document.py",
+    "content": "\"\"\"\nDatabase connection and query utilities\n\"\"\"\nimport asyncio\nimport asyncpg\nfrom contextlib import asynccontextmanager\n\nclass DatabasePool:\n    def __init__(self, connection_url):\n        self.connection_url = connection_url\n        self.pool = None\n    \n    async def initialize(self):\n        self.pool = await asyncpg.create_pool(self.connection_url)\n    \n    @asynccontextmanager\n    async def get_connection(self):\n        async with self.pool.acquire() as conn:\n            yield conn",
+    "summary": "This file contains data models for project handling.",
+    "commit_hash": "8cd1234840bc2",
+    "created_at": "2024-10-15T14:55:09.808595",
+    "updated_at": "2024-10-07T14:55:09.808595",
+    "version": 4,
+    "language": "python",
+    "imports": [],
+    "exports": [
+      "DatabasePool",
+      "Document"
+    ],
+    "references": [
+      "src/types/project.ts",
+      "src/config/database.js"
+    ]
+  },
+  {
+    "id": "27069bf2-8f6c-4f90-907d-9a975d13ecda",
+    "project_id": "8c9110ae-5ae4-4686-a2cc-cc5d51612224",
+    "file_path": "src/services/user.kt",
+    "content": "// Kotlin code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains utility functions for user management.",
+    "commit_hash": "d97f65dbb5c7c",
+    "created_at": "2024-10-05T14:55:09.808595",
+    "updated_at": "2024-10-09T14:55:09.808595",
+    "version": 2,
+    "language": "kotlin",
+    "imports": [
+      "moment",
+      "cors"
+    ],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "888c96b1-0841-427d-bf86-2e53097d8104",
+    "project_id": "8c9110ae-5ae4-4686-a2cc-cc5d51612224",
+    "file_path": "src/models/project.ts",
+    "content": "interface User {\n  id: string;\n  email: string;\n  name: string;\n  createdAt: Date;\n}\n\ninterface Project {\n  id: string;\n  name: string;\n  userId: string;\n  repoUrl: string;\n}\n\nexport class ApiClient {\n  private baseUrl: string;\n  \n  constructor(baseUrl: string) {\n    this.baseUrl = baseUrl;\n  }\n  \n  async fetchProjects(): Promise<Project[]> {\n    const response = await fetch(`${this.baseUrl}/projects`);\n    return response.json();\n  }\n}",
+    "summary": "This file contains data models for project handling.",
+    "commit_hash": "b385ca891cba1",
+    "created_at": "2024-10-24T14:55:09.808595",
+    "updated_at": "2024-10-11T14:55:09.808595",
+    "version": 2,
+    "language": "typescript",
+    "imports": [
+      "react",
+      "jsonwebtoken"
+    ],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "82b4cf00-dd86-4ae0-ac50-acdeb8351e12",
+    "project_id": "8c9110ae-5ae4-4686-a2cc-cc5d51612224",
+    "file_path": "src/models/user.swift",
+    "content": "// Swift code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains utility functions for project handling.",
+    "commit_hash": "3280316b43e3d",
+    "created_at": "2024-10-27T14:55:09.808595",
+    "updated_at": "2024-10-08T14:55:09.808595",
+    "version": 5,
+    "language": "swift",
+    "imports": [
+      "moment",
+      "dotenv"
+    ],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "2240556c-4fd7-4711-852d-124d0237bbdb",
+    "project_id": "8c9110ae-5ae4-4686-a2cc-cc5d51612224",
+    "file_path": "src/services/auth.rs",
+    "content": "// Rust code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains authentication logic for search functionality.",
+    "commit_hash": "336e9c4852843",
+    "created_at": "2024-10-18T14:55:09.808595",
+    "updated_at": "2024-10-07T14:55:09.808595",
+    "version": 4,
+    "language": "rust",
+    "imports": [
+      "axios",
+      "cors"
+    ],
+    "exports": [
+      "ApiClient",
+      "AuthService"
+    ],
+    "references": []
+  },
+  {
+    "id": "2f92ee87-f24b-40a1-921e-c985c05868b3",
+    "project_id": "b846239d-b761-48a7-b67d-242393725de8",
+    "file_path": "src/services/user.kt",
+    "content": "// Kotlin code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains utility functions for document processing.",
+    "commit_hash": "8bd1cbd0a2bc4",
+    "created_at": "2024-10-23T14:55:09.808614",
+    "updated_at": "2024-11-27T14:55:09.808614",
+    "version": 5,
+    "language": "kotlin",
+    "imports": [
+      "axios",
+      "helmet"
+    ],
+    "exports": [],
+    "references": [
+      "src/types/user.ts",
+      "src/config/auth.js"
+    ]
+  },
+  {
+    "id": "905d9dd1-a7ed-478b-a669-aa3f88ee9555",
+    "project_id": "b846239d-b761-48a7-b67d-242393725de8",
+    "file_path": "src/services/project.java",
+    "content": "// Java code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains data models for document processing.",
+    "commit_hash": "a6b25278eb0b4",
+    "created_at": "2024-10-16T14:55:09.808614",
+    "updated_at": "2024-11-26T14:55:09.808614",
+    "version": 2,
+    "language": "java",
+    "imports": [],
+    "exports": [
+      "DatabasePool",
+      "Project"
+    ],
+    "references": [
+      "src/types/api.ts",
+      "src/config/app.js"
+    ]
+  },
+  {
+    "id": "0f745a04-d1f4-46aa-a819-6126c54fea69",
+    "project_id": "b846239d-b761-48a7-b67d-242393725de8",
+    "file_path": "src/components/auth.cs",
+    "content": "// Csharp code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains data models for project handling.",
+    "commit_hash": "7ff0dcb250ce7",
+    "created_at": "2024-11-07T14:55:09.808614",
+    "updated_at": "2024-12-01T14:55:09.808614",
+    "version": 3,
+    "language": "csharp",
+    "imports": [
+      "lodash",
+      "bcrypt"
+    ],
+    "exports": [
+      "ApiClient",
+      "AuthService"
+    ],
+    "references": [
+      "src/types/api.ts",
+      "src/config/auth.js"
+    ]
+  },
+  {
+    "id": "1da617bc-1849-4f7f-b74c-5354a8ed7b71",
+    "project_id": "b846239d-b761-48a7-b67d-242393725de8",
+    "file_path": "src/services/project.rs",
+    "content": "// Rust code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains data models for project handling.",
+    "commit_hash": "374d42b081360",
+    "created_at": "2024-11-08T14:55:09.808614",
+    "updated_at": "2024-12-01T14:55:09.808614",
+    "version": 3,
+    "language": "rust",
+    "imports": [],
+    "exports": [
+      "generateHash",
+      "Project"
+    ],
+    "references": []
+  },
+  {
+    "id": "966681bd-8685-4e53-9827-f66f9d7b5d04",
+    "project_id": "b846239d-b761-48a7-b67d-242393725de8",
+    "file_path": "src/services/auth.cs",
+    "content": "// Csharp code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains API endpoints for document processing.",
+    "commit_hash": "52a65c76ea7e1",
+    "created_at": "2024-10-27T14:55:09.808614",
+    "updated_at": "2024-12-02T14:55:09.808614",
+    "version": 3,
+    "language": "csharp",
+    "imports": [],
+    "exports": [
+      "ApiClient",
+      "User"
+    ],
+    "references": [
+      "src/types/api.ts",
+      "src/config/auth.js"
+    ]
+  },
+  {
+    "id": "d34fe5cc-499d-4730-9096-0ef246160703",
+    "project_id": "b846239d-b761-48a7-b67d-242393725de8",
+    "file_path": "src/models/auth.kt",
+    "content": "// Kotlin code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains utility functions for document processing.",
+    "commit_hash": "909467820aef3",
+    "created_at": "2024-10-31T14:55:09.808614",
+    "updated_at": "2024-11-27T14:55:09.808614",
+    "version": 3,
+    "language": "kotlin",
+    "imports": [],
+    "exports": [],
+    "references": [
+      "src/types/project.ts",
+      "src/config/database.js"
+    ]
+  },
+  {
+    "id": "41d89afc-609e-4f99-9790-f02f437ed960",
+    "project_id": "b846239d-b761-48a7-b67d-242393725de8",
+    "file_path": "src/models/auth.tsx",
+    "content": "interface User {\n  id: string;\n  email: string;\n  name: string;\n  createdAt: Date;\n}\n\ninterface Project {\n  id: string;\n  name: string;\n  userId: string;\n  repoUrl: string;\n}\n\nexport class ApiClient {\n  private baseUrl: string;\n  \n  constructor(baseUrl: string) {\n    this.baseUrl = baseUrl;\n  }\n  \n  async fetchProjects(): Promise<Project[]> {\n    const response = await fetch(`${this.baseUrl}/projects`);\n    return response.json();\n  }\n}",
+    "summary": "This file contains database queries for user management.",
+    "commit_hash": "3f41904fcb0e3",
+    "created_at": "2024-10-20T14:55:09.808614",
+    "updated_at": "2024-11-25T14:55:09.808614",
+    "version": 3,
+    "language": "typescript",
+    "imports": [],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "858ea572-a0cd-4c2f-b62e-5487a50c36a6",
+    "project_id": "b846239d-b761-48a7-b67d-242393725de8",
+    "file_path": "src/utils/api.cxx",
+    "content": "// Cpp code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains authentication logic for search functionality.",
+    "commit_hash": "89c02bffd00d6",
+    "created_at": "2024-10-25T14:55:09.808614",
+    "updated_at": "2024-11-25T14:55:09.808614",
+    "version": 4,
+    "language": "cpp",
+    "imports": [
+      "moment",
+      "dotenv"
+    ],
+    "exports": [
+      "validateToken",
+      "Project"
+    ],
+    "references": [
+      "src/types/project.ts",
+      "src/config/app.js"
+    ]
+  },
+  {
+    "id": "a61ed0fe-95bb-41c9-8f9c-cc8130effb83",
+    "project_id": "b846239d-b761-48a7-b67d-242393725de8",
+    "file_path": "src/utils/user.ts",
+    "content": "interface User {\n  id: string;\n  email: string;\n  name: string;\n  createdAt: Date;\n}\n\ninterface Project {\n  id: string;\n  name: string;\n  userId: string;\n  repoUrl: string;\n}\n\nexport class ApiClient {\n  private baseUrl: string;\n  \n  constructor(baseUrl: string) {\n    this.baseUrl = baseUrl;\n  }\n  \n  async fetchProjects(): Promise<Project[]> {\n    const response = await fetch(`${this.baseUrl}/projects`);\n    return response.json();\n  }\n}",
+    "summary": "This file contains database queries for user management.",
+    "commit_hash": "407c8997fa19d",
+    "created_at": "2024-10-16T14:55:09.808614",
+    "updated_at": "2024-11-28T14:55:09.808614",
+    "version": 4,
+    "language": "typescript",
+    "imports": [
+      "axios",
+      "helmet"
+    ],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "b9856db6-c64f-443f-90d8-aa4a87c9e1cf",
+    "project_id": "b846239d-b761-48a7-b67d-242393725de8",
+    "file_path": "src/components/user.go",
+    "content": "// Go code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains data models for project handling.",
+    "commit_hash": "853fe659185e7",
+    "created_at": "2024-10-19T14:55:09.808614",
+    "updated_at": "2024-11-26T14:55:09.808614",
+    "version": 2,
+    "language": "go",
+    "imports": [
+      "lodash",
+      "cors"
+    ],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "2b06292c-0d32-435f-901d-6618e431dac3",
+    "project_id": "b846239d-b761-48a7-b67d-242393725de8",
+    "file_path": "src/models/auth.go",
+    "content": "// Go code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains authentication logic for document processing.",
+    "commit_hash": "cb8bb15e6e961",
+    "created_at": "2024-10-28T14:55:09.808614",
+    "updated_at": "2024-11-30T14:55:09.808614",
+    "version": 5,
+    "language": "go",
+    "imports": [
+      "axios",
+      "dotenv"
+    ],
+    "exports": [
+      "DatabasePool",
+      "Document"
+    ],
+    "references": [
+      "src/types/user.ts",
+      "src/config/database.js"
+    ]
+  },
+  {
+    "id": "c27e9b40-9685-43f1-b510-33d0221b339c",
+    "project_id": "b846239d-b761-48a7-b67d-242393725de8",
+    "file_path": "src/services/api.java",
+    "content": "// Java code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains utility functions for project handling.",
+    "commit_hash": "90dcb15698ea3",
+    "created_at": "2024-11-01T14:55:09.808614",
+    "updated_at": "2024-11-24T14:55:09.808614",
+    "version": 4,
+    "language": "java",
+    "imports": [
+      "express",
+      "jsonwebtoken"
+    ],
+    "exports": [
+      "DatabasePool",
+      "User"
+    ],
+    "references": []
+  },
+  {
+    "id": "5c490067-4bfe-4fa1-9dd5-3f8f069ad6a2",
+    "project_id": "dc076356-9d3f-43d2-b1f1-5999964e2f70",
+    "file_path": "src/services/auth.cc",
+    "content": "// Cpp code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains API endpoints for document processing.",
+    "commit_hash": "81cb9025aedd4",
+    "created_at": "2024-10-15T14:55:09.808595",
+    "updated_at": "2024-10-09T14:55:09.808595",
+    "version": 3,
+    "language": "cpp",
+    "imports": [
+      "axios",
+      "jsonwebtoken"
+    ],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "2909f6af-3af8-4fdf-910d-71c2fb30fec9",
+    "project_id": "dc076356-9d3f-43d2-b1f1-5999964e2f70",
+    "file_path": "src/components/document.go",
+    "content": "// Go code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains database queries for user management.",
+    "commit_hash": "c0c668abcb75c",
+    "created_at": "2024-10-20T14:55:09.808595",
+    "updated_at": "2024-10-08T14:55:09.808595",
+    "version": 4,
+    "language": "go",
+    "imports": [
+      "express",
+      "jsonwebtoken"
+    ],
+    "exports": [],
+    "references": [
+      "src/types/api.ts",
+      "src/config/auth.js"
+    ]
+  },
+  {
+    "id": "e3539c3d-40fa-438e-b04b-f4ce468452b6",
+    "project_id": "dc076356-9d3f-43d2-b1f1-5999964e2f70",
+    "file_path": "src/services/api.js",
+    "content": "// Authentication utility functions\nexport function validateToken(token) {\n    if (!token) return false;\n    try {\n        const decoded = jwt.verify(token, process.env.JWT_SECRET);\n        return decoded.userId;\n    } catch (error) {\n        return false;\n    }\n}\n\nexport function generateApiKey() {\n    return crypto.randomBytes(32).toString('hex');\n}",
+    "summary": "This file contains API endpoints for document processing.",
+    "commit_hash": "889268b45073b",
+    "created_at": "2024-10-21T14:55:09.808595",
+    "updated_at": "2024-10-09T14:55:09.808595",
+    "version": 1,
+    "language": "javascript",
+    "imports": [],
+    "exports": [
+      "generateHash",
+      "Project"
+    ],
+    "references": []
+  },
+  {
+    "id": "8d1bee36-3ff1-4c8a-bdd4-c16871f9302c",
+    "project_id": "dc076356-9d3f-43d2-b1f1-5999964e2f70",
+    "file_path": "src/components/user.jsx",
+    "content": "// Authentication utility functions\nexport function validateToken(token) {\n    if (!token) return false;\n    try {\n        const decoded = jwt.verify(token, process.env.JWT_SECRET);\n        return decoded.userId;\n    } catch (error) {\n        return false;\n    }\n}\n\nexport function generateApiKey() {\n    return crypto.randomBytes(32).toString('hex');\n}",
+    "summary": "This file contains utility functions for search functionality.",
+    "commit_hash": "367c49f768e0c",
+    "created_at": "2024-10-13T14:55:09.808595",
+    "updated_at": "2024-10-14T14:55:09.808595",
+    "version": 4,
+    "language": "javascript",
+    "imports": [
+      "lodash",
+      "jsonwebtoken"
+    ],
+    "exports": [
+      "DatabasePool",
+      "AuthService"
+    ],
+    "references": [
+      "src/types/user.ts",
+      "src/config/auth.js"
+    ]
+  },
+  {
+    "id": "269aae08-b96e-4ca2-8972-c8a5d9b4ca92",
+    "project_id": "dc076356-9d3f-43d2-b1f1-5999964e2f70",
+    "file_path": "src/models/user.php",
+    "content": "// Php code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains database queries for project handling.",
+    "commit_hash": "2a4919c779d5c",
+    "created_at": "2024-10-01T14:55:09.808595",
+    "updated_at": "2024-10-10T14:55:09.808595",
+    "version": 3,
+    "language": "php",
+    "imports": [
+      "moment",
+      "helmet"
+    ],
+    "exports": [
+      "ApiClient",
+      "Document"
+    ],
+    "references": [
+      "src/types/api.ts",
+      "src/config/app.js"
+    ]
+  },
+  {
+    "id": "7ab09d9f-df15-452a-a465-64f804ef93d8",
+    "project_id": "dc076356-9d3f-43d2-b1f1-5999964e2f70",
+    "file_path": "src/models/api.cs",
+    "content": "// Csharp code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains authentication logic for document processing.",
+    "commit_hash": "6d84ca0dd98e7",
+    "created_at": "2024-10-10T14:55:09.808595",
+    "updated_at": "2024-10-08T14:55:09.808595",
+    "version": 4,
+    "language": "csharp",
+    "imports": [
+      "lodash",
+      "cors"
+    ],
+    "exports": [
+      "generateHash",
+      "AuthService"
+    ],
+    "references": []
+  },
+  {
+    "id": "bd2951ed-ebb0-49c4-8590-0c5c9066c8a3",
+    "project_id": "dc076356-9d3f-43d2-b1f1-5999964e2f70",
+    "file_path": "src/services/document.cpp",
+    "content": "// Cpp code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains authentication logic for search functionality.",
+    "commit_hash": "c2518f3495c5d",
+    "created_at": "2024-10-18T14:55:09.808595",
+    "updated_at": "2024-10-06T14:55:09.808595",
+    "version": 2,
+    "language": "cpp",
+    "imports": [
+      "react",
+      "cors"
+    ],
+    "exports": [
+      "ApiClient",
+      "User"
+    ],
+    "references": [
+      "src/types/project.ts",
+      "src/config/database.js"
+    ]
+  },
+  {
+    "id": "582992d6-8ebb-4eef-9a69-80f9947f87c1",
+    "project_id": "dc076356-9d3f-43d2-b1f1-5999964e2f70",
+    "file_path": "src/components/user.php",
+    "content": "// Php code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains authentication logic for project handling.",
+    "commit_hash": "2b91fd73d556e",
+    "created_at": "2024-10-08T14:55:09.808595",
+    "updated_at": "2024-10-12T14:55:09.808595",
+    "version": 3,
+    "language": "php",
+    "imports": [
+      "axios",
+      "dotenv"
+    ],
+    "exports": [
+      "DatabasePool",
+      "Document"
+    ],
+    "references": [
+      "src/types/project.ts",
+      "src/config/app.js"
+    ]
+  },
+  {
+    "id": "0155e827-b0bf-45fe-9697-d218292c8922",
+    "project_id": "dc076356-9d3f-43d2-b1f1-5999964e2f70",
+    "file_path": "src/utils/project.js",
+    "content": "// Authentication utility functions\nexport function validateToken(token) {\n    if (!token) return false;\n    try {\n        const decoded = jwt.verify(token, process.env.JWT_SECRET);\n        return decoded.userId;\n    } catch (error) {\n        return false;\n    }\n}\n\nexport function generateApiKey() {\n    return crypto.randomBytes(32).toString('hex');\n}",
+    "summary": "This file contains API endpoints for user management.",
+    "commit_hash": "8782cf96eb00c",
+    "created_at": "2024-09-26T14:55:09.808595",
+    "updated_at": "2024-10-06T14:55:09.808595",
+    "version": 1,
+    "language": "javascript",
+    "imports": [
+      "uuid",
+      "helmet"
+    ],
+    "exports": [
+      "validateToken",
+      "Document"
+    ],
+    "references": [
+      "src/types/project.ts",
+      "src/config/auth.js"
+    ]
+  },
+  {
+    "id": "270686ac-3a04-4a3d-a1f0-9992f785ad6d",
+    "project_id": "dc076356-9d3f-43d2-b1f1-5999964e2f70",
+    "file_path": "src/utils/user.rs",
+    "content": "// Rust code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains database queries for search functionality.",
+    "commit_hash": "a94aaae1f099b",
+    "created_at": "2024-10-14T14:55:09.808595",
+    "updated_at": "2024-10-14T14:55:09.808595",
+    "version": 2,
+    "language": "rust",
+    "imports": [],
+    "exports": [
+      "DatabasePool",
+      "Project"
+    ],
+    "references": []
+  },
+  {
+    "id": "11db4bdb-9d95-4300-8dfe-9a1e1af6b62f",
+    "project_id": "dc076356-9d3f-43d2-b1f1-5999964e2f70",
+    "file_path": "src/utils/document.rb",
+    "content": "// Ruby code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains data models for search functionality.",
+    "commit_hash": "59c718a8f0b69",
+    "created_at": "2024-10-14T14:55:09.808595",
+    "updated_at": "2024-10-16T14:55:09.808595",
+    "version": 4,
+    "language": "ruby",
+    "imports": [
+      "uuid",
+      "jsonwebtoken"
+    ],
+    "exports": [],
+    "references": []
+  },
+  {
+    "id": "626b48af-c477-4b5f-8ca1-d539b2166445",
+    "project_id": "dc076356-9d3f-43d2-b1f1-5999964e2f70",
+    "file_path": "src/models/project.rs",
+    "content": "// Rust code example\nfunction example() {\n  return 'Hello World';\n}",
+    "summary": "This file contains authentication logic for document processing.",
+    "commit_hash": "4b69ea51c40c2",
+    "created_at": "2024-10-05T14:55:09.808595",
+    "updated_at": "2024-10-09T14:55:09.808595",
+    "version": 1,
+    "language": "rust",
+    "imports": [],
+    "exports": [
+      "ApiClient",
+      "Document"
+    ],
+    "references": []
+  }
+]

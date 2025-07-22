@@ -22,7 +22,7 @@ COGENT is a Claude Code enhancement tool deployed as a serverless application on
 
 ## Knowledge Gaps & Questions
 
-I need to gather specific requirements before implementing Sprint 0. I'll ask these questions one at a time, and use your answers to construct a SPRINT0_SPEC.md.
+I need to gather specific requirements before implementing Sprint 0. you should THINK DEEPLY and then ask me these questions one at a time including your suggestion based on our project info in CLAUDE.md, use my answers to construct a SPRINT0_SPEC.md.
 
 ### Question 1: Database Schema Design
 

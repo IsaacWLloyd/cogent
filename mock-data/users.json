@@ -1,0 +1,47 @@
+[
+  {
+    "id": "f5fdd31c-a672-495b-b2e5-7b61fd55638a",
+    "clerk_id": "user_deca7134c056",
+    "email": "alice.johnson@example.com",
+    "name": "Alice Johnson",
+    "created_at": "2024-07-30T14:55:09.808550",
+    "updated_at": "2024-08-03T14:55:09.808550",
+    "settings_json": {
+      "theme": "light",
+      "notifications": false,
+      "default_visibility": "private"
+    },
+    "clerk_org_id": null,
+    "last_seen": "2025-07-21T11:55:09.808550"
+  },
+  {
+    "id": "2b25ed09-e0ae-430c-86ab-1942da2af194",
+    "clerk_id": "user_923c32c74409",
+    "email": "bob.smith@techcorp.com",
+    "name": "Bob Smith",
+    "created_at": "2024-09-16T14:55:09.808595",
+    "updated_at": "2024-09-19T14:55:09.808595",
+    "settings_json": {
+      "theme": "dark",
+      "notifications": true,
+      "default_visibility": "private"
+    },
+    "clerk_org_id": null,
+    "last_seen": "2025-07-20T02:55:09.808595"
+  },
+  {
+    "id": "6b825709-2dcd-47d3-b1c1-2b2a52790f73",
+    "clerk_id": "user_be6923ca281d",
+    "email": "carol.davis@startup.io",
+    "name": "Carol Davis",
+    "created_at": "2024-10-07T14:55:09.808614",
+    "updated_at": "2024-10-27T14:55:09.808614",
+    "settings_json": {
+      "theme": "light",
+      "notifications": true,
+      "default_visibility": "public"
+    },
+    "clerk_org_id": null,
+    "last_seen": "2025-07-16T07:55:09.808614"
+  }
+]
