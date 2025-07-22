@@ -46,6 +46,7 @@ lerna-debug.log*
 /frontend/dist/
 /frontend/build/
 /shared/dist/
+.next/
 
 # Database
 *.db
