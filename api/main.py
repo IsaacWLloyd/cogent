@@ -39,6 +39,9 @@ async def root():
 from waitlist import router as waitlist_router
 app.include_router(waitlist_router, prefix="/api/v1", tags=["Waitlist"])
 
+# For Vercel serverless deployment
+handler = app
+
 # For local development
 if __name__ == "__main__":
     import uvicorn
