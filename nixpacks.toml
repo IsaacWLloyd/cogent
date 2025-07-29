@@ -1,5 +1,7 @@
-[providers]
-node = "22"
+providers = ["node"]
+
+[variables]
+NODE_VERSION = "22"
 
 [build]
 cmds = ["cd frontend && npm ci && npm run build"]
