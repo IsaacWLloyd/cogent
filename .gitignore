@@ -78,3 +78,7 @@ coverage/
 # Logs
 logs/
 *.log
+
+# Vercel
+.vercel/
+*.local.json

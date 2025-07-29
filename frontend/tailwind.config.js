@@ -18,6 +18,11 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        'sans': ['Manrope', 'sans-serif'],
+        'display': ['Space Grotesk', 'sans-serif'],
+        'mono': ['Kode Mono', 'monospace'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

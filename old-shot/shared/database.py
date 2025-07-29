@@ -212,6 +212,28 @@ class ApiKey(Base):
         return f"<ApiKey(id={self.id}, name={self.name}, project_id={self.project_id})>"
 
 
+class Waitlist(Base):
+    """Waitlist for landing page signups"""
+    __tablename__ = "waitlist"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    email = Column(String(255), unique=True, nullable=False, index=True)
+    created_at = Column(DateTime(timezone=True), nullable=False, default=func.now())
+    source = Column(String(50), nullable=False, default='landing-page')
+    ip_address = Column(String(45), nullable=True)  # IPv6 compatible
+    user_agent = Column(Text, nullable=True)
+    
+    # Constraints and indexes
+    __table_args__ = (
+        Index('idx_waitlist_email', 'email'),
+        Index('idx_waitlist_created_at', 'created_at'),
+        Index('idx_waitlist_source', 'source'),
+    )
+    
+    def __repr__(self):
+        return f"<Waitlist(id={self.id}, email={self.email}, source={self.source})>"
+
+
 # Database configuration for Neon
 class DatabaseConfig:
     """Database configuration optimized for Neon serverless PostgreSQL"""
@@ -311,6 +333,7 @@ __all__ = [
     'SearchIndex',
     'Usage',
     'ApiKey',
+    'Waitlist',
     'VisibilityEnum',
     'OperationTypeEnum',
     'DatabaseConfig',

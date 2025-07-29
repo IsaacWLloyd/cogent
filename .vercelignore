@@ -1,0 +1,20 @@
+# Ignore Python files for frontend-only deployment
+*.py
+__pycache__/
+*.pyc
+requirements.txt
+requirements-dev.txt
+api/
+mcp/
+hooks/
+shared/
+alembic/
+alembic.ini
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+.coverage
+htmlcov/
+.python-version
