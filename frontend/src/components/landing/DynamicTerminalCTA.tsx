@@ -252,21 +252,47 @@ export default function DynamicTerminalCTA({
       if (inputValue.includes('@')) {
         // Save email to database
         try {
+          console.log('[DEBUG] Attempting to submit email:', inputValue);
+          console.log('[DEBUG] Making fetch request to:', '/api/v1/waitlist');
+          
+          const requestBody = { email: inputValue };
+          console.log('[DEBUG] Request body:', requestBody);
+          console.log('[DEBUG] Stringified body:', JSON.stringify(requestBody));
+          
           const response = await fetch('/api/v1/waitlist', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: inputValue })
+            body: JSON.stringify(requestBody)
           });
           
-          const data = await response.json();
+          console.log('[DEBUG] Response status:', response.status);
+          console.log('[DEBUG] Response ok:', response.ok);
+          console.log('[DEBUG] Response headers:', Object.fromEntries(response.headers.entries()));
+          
+          const responseText = await response.text();
+          console.log('[DEBUG] Raw response text:', responseText);
+          
+          let data;
+          try {
+            data = JSON.parse(responseText);
+            console.log('[DEBUG] Parsed response data:', data);
+          } catch (parseError) {
+            console.error('[DEBUG] JSON parse error:', parseError);
+            console.error('[DEBUG] Could not parse response as JSON:', responseText);
+            throw new Error(`Server returned invalid JSON: ${responseText}`);
+          }
           
           if (!response.ok) {
+            console.error('[DEBUG] Response not ok, throwing error:', data.error || 'Failed to join waitlist');
             throw new Error(data.error || 'Failed to join waitlist');
           }
           
+          console.log('[DEBUG] Success! Message:', data.message);
           result = { success: true, message: data.message };
         } catch (error) {
-          console.error('Waitlist signup error:', error);
+          console.error('[DEBUG] Waitlist signup error:', error);
+          console.error('[DEBUG] Error type:', typeof error);
+          console.error('[DEBUG] Error message:', error instanceof Error ? error.message : 'Unknown error');
           result = { 
             success: false, 
             message: error instanceof Error ? error.message : 'Failed to join waitlist' 
