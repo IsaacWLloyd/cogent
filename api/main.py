@@ -36,7 +36,7 @@ async def root():
     }
 
 # Import and register waitlist router
-from .waitlist import router as waitlist_router
+from waitlist import router as waitlist_router
 app.include_router(waitlist_router, prefix="/api/v1", tags=["Waitlist"])
 
 # For local development
