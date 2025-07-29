@@ -7,4 +7,4 @@ NODE_VERSION = "22"
 cmds = ["cd frontend && npm ci --include=dev && npm run build"]
 
 [start]
-cmd = "cd frontend && npm run preview"
+cmd = "cd frontend && npx serve dist -s -l ${PORT:-8080}"
