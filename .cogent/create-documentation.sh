@@ -2,7 +2,7 @@
 
 # Claude Code Documentation Hook Script
 # This script is triggered after Claude Code edits a file
-# It creates a documentation template for the edited file
+# It creates a documentation template and triggers automatic filling
 
 # Enable strict error handling
 set -euo pipefail
@@ -277,12 +277,11 @@ main() {
         log "Documentation already exists: $doc_path"
         # Update the timestamp in existing documentation
         sed -i "s|^\*\*Last Updated:\*\* .*|**Last Updated:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")|" "$doc_path"
-        # Return structured JSON to trigger documentation update
+        # Use proper Claude Code hook feedback mechanism
         cat <<EOF
 {
-  "suppressOutput": false,
-  "message": "Documentation already exists at $doc_path. I'll update it with recent changes.",
-  "feedback_to_claude": "Task: Update the existing documentation at $doc_path based on changes in $file_path. Read both files, then update the 'Recent Changes' section with the latest modifications and update any other sections that may have been affected by the changes."
+  "decision": "block",
+  "reason": "Documentation already exists at $doc_path. Please update the existing documentation by reading both $file_path and $doc_path, then update the 'Recent Changes' section with the latest modifications and update any other sections that may have been affected by the changes."
 }
 EOF
         exit 0
@@ -293,12 +292,11 @@ EOF
     
     log "Created documentation template: $doc_path"
     
-    # Return structured JSON to trigger documentation filling
+    # Use proper Claude Code hook feedback mechanism
     cat <<EOF
 {
-  "suppressOutput": false,
-  "message": "Documentation template created at $doc_path. I'll now fill it with content.",
-  "feedback_to_claude": "Task: Fill the documentation template at $doc_path by analyzing the source file at $file_path. Read both files, then update the documentation template by replacing all [AI: ...] placeholders with comprehensive, accurate content based on the source code. Make sure to document all classes, functions, dependencies, and provide real usage examples."
+  "decision": "block",
+  "reason": "Documentation template created at $doc_path. Please fill it with content by analyzing the source file at $file_path. Read both files, then update the documentation template by replacing all [AI: ...] placeholders with comprehensive, accurate content based on the source code. Make sure to document all classes, functions, dependencies, and provide real usage examples."
 }
 EOF
 }
