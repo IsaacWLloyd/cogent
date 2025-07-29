@@ -277,15 +277,12 @@ main() {
         log "Documentation already exists: $doc_path"
         # Update the timestamp in existing documentation
         sed -i "s|^\*\*Last Updated:\*\* .*|**Last Updated:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")|" "$doc_path"
-        # Return structured JSON for Claude to process
+        # Return structured JSON to trigger documentation update
         cat <<EOF
 {
   "suppressOutput": false,
-  "message": "Documentation already exists at $doc_path. Please:
-1. Read the source file at $file_path
-2. Read the existing documentation at $doc_path
-3. Update the 'Recent Changes' section with the latest modifications
-4. Update any other sections that may have been affected by the changes"
+  "message": "Documentation already exists at $doc_path. I'll update it with recent changes.",
+  "feedback_to_claude": "Task: Update the existing documentation at $doc_path based on changes in $file_path. Read both files, then update the 'Recent Changes' section with the latest modifications and update any other sections that may have been affected by the changes."
 }
 EOF
         exit 0
@@ -296,23 +293,12 @@ EOF
     
     log "Created documentation template: $doc_path"
     
-    # Return structured JSON instruction for Claude Code
+    # Return structured JSON to trigger documentation filling
     cat <<EOF
 {
   "suppressOutput": false,
-  "message": "Documentation template created at $doc_path. Please:
-1. Read the source file at $file_path to understand its structure and purpose
-2. Read the documentation template at $doc_path
-3. Fill in ALL placeholder sections marked with [AI: ...] with comprehensive, accurate information
-4. Replace placeholder text with actual content about:
-   - File overview and purpose
-   - Intent and problem it solves
-   - How it integrates with the project
-   - All classes, functions, and key variables
-   - Dependencies (internal and external)
-   - Usage examples with real code
-   - Error handling and security considerations
-5. Save the completed documentation"
+  "message": "Documentation template created at $doc_path. I'll now fill it with content.",
+  "feedback_to_claude": "Task: Fill the documentation template at $doc_path by analyzing the source file at $file_path. Read both files, then update the documentation template by replacing all [AI: ...] placeholders with comprehensive, accurate content based on the source code. Make sure to document all classes, functions, dependencies, and provide real usage examples."
 }
 EOF
 }
