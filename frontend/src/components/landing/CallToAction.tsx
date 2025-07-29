@@ -19,7 +19,7 @@ export default function CallToAction({ isVisible }: CallToActionProps) {
     setMessage("")
     
     try {
-      const response = await fetch('/api/v1/waitlist/', {
+      const response = await fetch('/api/v1/waitlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

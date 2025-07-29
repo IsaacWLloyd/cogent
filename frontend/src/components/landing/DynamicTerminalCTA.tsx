@@ -252,7 +252,7 @@ export default function DynamicTerminalCTA({
       if (inputValue.includes('@')) {
         // Save email to database
         try {
-          const response = await fetch('/api/waitlist', {
+          const response = await fetch('/api/v1/waitlist', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: inputValue })
