@@ -4,7 +4,7 @@ providers = ["node"]
 NODE_VERSION = "22"
 
 [build]
-cmds = ["cd frontend && npm ci && npm run build"]
+cmds = ["cd frontend && npm ci --include=dev && npm run build"]
 
 [start]
 cmd = "cd frontend && npm run preview"
