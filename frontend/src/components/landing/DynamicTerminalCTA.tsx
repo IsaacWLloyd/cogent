@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
+import { useMutation } from 'convex/react'
+import { api } from '../../../convex/_generated/api'
 
 // Types for different terminal states
 export interface BaseTerminalState {
@@ -68,6 +70,8 @@ export default function DynamicTerminalCTA({
   const terminalRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+
+  const addToWaitlist = useMutation(api.waitlist.addToWaitlist)
 
   const currentState = states[currentStateIndex]
   const isVisible = alwaysVisible || (visibilityTrigger === 'manual' ? manualVisible : isInView)
@@ -250,49 +254,11 @@ export default function DynamicTerminalCTA({
       
       // Check if it's an email input (simple validation)
       if (inputValue.includes('@')) {
-        // Save email to database
+        // Save email to Convex database
         try {
-          console.log('[DEBUG] Attempting to submit email:', inputValue);
-          console.log('[DEBUG] Making fetch request to:', '/api/v1/waitlist');
-          
-          const requestBody = { email: inputValue };
-          console.log('[DEBUG] Request body:', requestBody);
-          console.log('[DEBUG] Stringified body:', JSON.stringify(requestBody));
-          
-          const response = await fetch('/api/v1/waitlist', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody)
-          });
-          
-          console.log('[DEBUG] Response status:', response.status);
-          console.log('[DEBUG] Response ok:', response.ok);
-          console.log('[DEBUG] Response headers:', Object.fromEntries(response.headers.entries()));
-          
-          const responseText = await response.text();
-          console.log('[DEBUG] Raw response text:', responseText);
-          
-          let data;
-          try {
-            data = JSON.parse(responseText);
-            console.log('[DEBUG] Parsed response data:', data);
-          } catch (parseError) {
-            console.error('[DEBUG] JSON parse error:', parseError);
-            console.error('[DEBUG] Could not parse response as JSON:', responseText);
-            throw new Error(`Server returned invalid JSON: ${responseText}`);
-          }
-          
-          if (!response.ok) {
-            console.error('[DEBUG] Response not ok, throwing error:', data.error || 'Failed to join waitlist');
-            throw new Error(data.error || 'Failed to join waitlist');
-          }
-          
-          console.log('[DEBUG] Success! Message:', data.message);
-          result = { success: true, message: data.message };
+          const response = await addToWaitlist({ email: inputValue });
+          result = response;
         } catch (error) {
-          console.error('[DEBUG] Waitlist signup error:', error);
-          console.error('[DEBUG] Error type:', typeof error);
-          console.error('[DEBUG] Error message:', error instanceof Error ? error.message : 'Unknown error');
           result = { 
             success: false, 
             message: error instanceof Error ? error.message : 'Failed to join waitlist' 

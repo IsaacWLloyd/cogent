@@ -4,6 +4,7 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
+  envDir: '../', // Look for .env files in the parent directory
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
