@@ -1,0 +1,17 @@
+{
+  "model": "claude-3-5-sonnet-20241022",
+  "theme": "dark",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Running bash command'"
+          }
+        ]
+      }
+    ]
+  }
+}

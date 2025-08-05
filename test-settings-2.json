@@ -1,0 +1,16 @@
+{
+  "model": "claude-3-5-sonnet-20241022",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "existing-hook.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
