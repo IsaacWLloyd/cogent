@@ -3,8 +3,7 @@ import DynamicTerminalCTA, { TerminalState } from './DynamicTerminalCTA'
 
 const phrases = [
   "English is the final programming language.",
-  "Cogent implements its full potential.", 
-  "Do not get left behind."
+  "Cogent implements its full potential."
 ]
 
 interface TypingAnimationProps {
@@ -19,6 +18,30 @@ export default function TypingAnimation({ onCTAShow }: TypingAnimationProps) {
   const [showPrompt, setShowPrompt] = useState(true)
   const [showCTA, setShowCTA] = useState(false)
   const [sunAscii, setSunAscii] = useState<string[]>([])
+  const [opacity, setOpacity] = useState(1)
+
+  // Handle scroll-based fade out
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      const windowHeight = window.innerHeight
+      const fadeStart = windowHeight * 0.1 // Start fading at 10% of viewport height
+      const fadeEnd = windowHeight * 0.27  // Fully faded at 27% of viewport height (3x faster fade)
+      
+      if (scrollY <= fadeStart) {
+        setOpacity(1)
+      } else if (scrollY >= fadeEnd) {
+        setOpacity(0)
+      } else {
+        const fadeRange = fadeEnd - fadeStart
+        const fadeProgress = (scrollY - fadeStart) / fadeRange
+        setOpacity(1 - fadeProgress)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // Load sun ASCII art
   useEffect(() => {
@@ -82,7 +105,7 @@ export default function TypingAnimation({ onCTAShow }: TypingAnimationProps) {
     },
     {
       type: 'input',
-      content: "Join us.",
+      content: "Do not get left behind.",
       placeholder: "example@gmail.com",
       onSubmit: (email) => {
         console.log("Hero waitlist signup:", email)
@@ -153,7 +176,7 @@ export default function TypingAnimation({ onCTAShow }: TypingAnimationProps) {
   }, [charIndex, currentPhraseIndex, isTyping, showPrompt])
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-8">
+    <div className="flex flex-col items-center justify-center space-y-8 transition-opacity duration-300" style={{ opacity }}>
       {/* Mobile: Centered multiline wrapper */}
       <div className="sm:hidden text-center max-w-xs">
         <span className="font-mono text-lg text-white bg-black px-4 py-2 leading-relaxed inline-block">

@@ -52,17 +52,18 @@ export default function QuickPitchSection() {
           <div 
             ref={(el) => (divsRef.current[1] = el)}
             id="copy1"
-            className={`text-white px-8 py-12 text-center transition-all duration-1000 delay-200 bg-white/5 backdrop-blur-[30%] ${
+            className={`px-8 py-12 text-center transition-all duration-1000 delay-200 bg-black border border-white/20 rounded-sm mx-16 ${
               visibleElements.has('copy1')
                 ? 'opacity-100 translate-y-0'
                 : 'opacity-0 translate-y-10'
             }`}
+            style={{ color: '#ECCD8C' }}
           >
-            <h3 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-              Coding agents don't go all the way
+            <h3 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#ECCD8C' }}>
+              Vibe coding can't go all the way
             </h3>
-            <p className="text-lg leading-relaxed max-w-4xl mx-auto" style={{ fontFamily: 'Manrope, sans-serif' }}>
-              Current coding agents write lots of code fast but they miss what matters. tools like cursor or Claude Code lose context, drift from specifications, and fail to implement your precise and glorious vision. What's worse, the prompts we use to control them are hard to iterate on and even harder to keep track of.
+            <p className="text-lg leading-relaxed max-w-4xl mx-auto text-white" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              Current vibe coding tools write lots of code fast but they miss what matters. They lose context, drift from your requirements, and ultimately fail to craft full-stack prodution apps. What's worse, the prompts we use to control them are hard to iterate on and even harder to keep track of.
             </p>
           </div>
           
@@ -87,17 +88,18 @@ export default function QuickPitchSection() {
           <div 
             ref={(el) => (divsRef.current[3] = el)}
             id="copy2"
-            className={`text-white px-8 py-12 text-center transition-all duration-1000 delay-200 bg-white/5 backdrop-blur-[30%] ${
+            className={`px-8 py-12 text-center transition-all duration-1000 delay-200 bg-black border border-white/20 rounded-sm mx-16 ${
               visibleElements.has('copy2')
                 ? 'opacity-100 translate-y-0'
                 : 'opacity-0 translate-y-10'
             }`}
+            style={{ color: '#ECCD8C' }}
           >
-            <h3 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            <h3 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#ECCD8C' }}>
               Cogent bridges the gap
             </h3>
-            <p className="text-lg leading-relaxed max-w-4xl mx-auto" style={{ fontFamily: 'Manrope, sans-serif' }}>
-	      Finally, coding agents that stay on target. Cogent forces agents to document all their changes - both granular and high-level - while feeding them just the right context at each step. We translate your vision into clear specifications through conversation, then keep agents locked onto them.
+            <p className="text-lg leading-relaxed max-w-4xl mx-auto text-white" style={{ fontFamily: 'Manrope, sans-serif' }}>
+	      Cogent helps you build and maintain a specification tree through natural conversation. Cogent deploys agents to implement and test code against your specifications, while feeding them just the right context at each step. Your whole app is now built from one source of truth and your ability to vibe code real apps is 10x.     
             </p>
           </div>
         </div>

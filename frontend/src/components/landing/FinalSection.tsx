@@ -68,7 +68,7 @@ export default function FinalSection() {
     },
     {
       type: 'input',
-      content: "Don't get left behind.",
+      content: "Do not get left behind.",
       placeholder: "example@gmail.com",
       // Email submission is now handled automatically by DynamicTerminalCTA
     },

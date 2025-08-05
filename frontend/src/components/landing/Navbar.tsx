@@ -9,11 +9,11 @@ export default function Navbar({ onOpenTerminal }: NavbarProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      const quickPitchElement = document.getElementById('quick-pitch')
-      if (quickPitchElement) {
-        const rect = quickPitchElement.getBoundingClientRect()
+      const introElement = document.getElementById('intro')
+      if (introElement) {
+        const rect = introElement.getBoundingClientRect()
         const windowHeight = window.innerHeight
-        // Show navbar when QuickPitchSection is about 2/3 up the screen
+        // Show navbar when IntroSection is about 2/3 up the screen
         // This means when only 1/3 of the viewport height remains below the top of the section
         setIsVisible(rect.top <= windowHeight * 0.33)
       }

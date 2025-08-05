@@ -1,6 +1,7 @@
 import StickyWallpaper from '../components/landing/StickyWallpaper'
 import Navbar from '../components/landing/Navbar'
 import HeroSection from '../components/landing/HeroSection'
+import IntroSection from '../components/landing/IntroSection'
 import QuickPitchSection from '../components/landing/QuickPitchSection'
 import VisualExplainerSection from '../components/landing/VisualExplainerSection'
 import RoadmapSection from '../components/landing/RoadmapSection'
@@ -19,6 +20,10 @@ export default function LandingPage({ onOpenTerminal }: LandingPageProps) {
       
       <div className="relative z-20">
         <HeroSection />
+        
+        <PageWrapper>
+          <IntroSection />
+        </PageWrapper>
         
         <PageWrapper>
           <QuickPitchSection />

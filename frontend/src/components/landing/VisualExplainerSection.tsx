@@ -6,8 +6,7 @@ export default function VisualExplainerSection() {
           {/* Step 1 */}
           <div className="bg-black/50 p-8 space-y-6">
             <div>
-              <span className="text-4xl font-bold" style={{ color: '#ECCD8C', fontFamily: 'Kode Mono, monospace' }}>1.</span>
-              <h3 className="text-2xl font-bold mt-2" style={{ color: '#ECCD8C', fontFamily: 'Kode Mono, monospace' }}>
+              <h3 className="text-2xl font-bold" style={{ color: '#ECCD8C', fontFamily: 'Kode Mono, monospace' }}>
                 cogent picks your brain
               </h3>
               <p className="text-white/90 mt-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
@@ -25,8 +24,7 @@ export default function VisualExplainerSection() {
           {/* Step 2 */}
           <div className="bg-black/50 p-8 space-y-6">
             <div>
-              <span className="text-4xl font-bold" style={{ color: '#ECCD8C', fontFamily: 'Kode Mono, monospace' }}>2.</span>
-              <h3 className="text-2xl font-bold mt-2" style={{ color: '#ECCD8C', fontFamily: 'Kode Mono, monospace' }}>
+              <h3 className="text-2xl font-bold" style={{ color: '#ECCD8C', fontFamily: 'Kode Mono, monospace' }}>
                 cogent crystallizes your intent
               </h3>
               <p className="text-white/90 mt-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
@@ -73,8 +71,7 @@ export default function VisualExplainerSection() {
           {/* Step 3 */}
           <div className="bg-black/50 p-8 space-y-6">
             <div>
-              <span className="text-4xl font-bold" style={{ color: '#ECCD8C', fontFamily: 'Kode Mono, monospace' }}>3.</span>
-              <h3 className="text-2xl font-bold mt-2" style={{ color: '#ECCD8C', fontFamily: 'Kode Mono, monospace' }}>
+              <h3 className="text-2xl font-bold" style={{ color: '#ECCD8C', fontFamily: 'Kode Mono, monospace' }}>
                 cogent manages your agents
               </h3>
               <p className="text-white/90 mt-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
@@ -92,7 +89,7 @@ export default function VisualExplainerSection() {
               {/* Content */}
               <div className="relative flex items-center space-x-12">
                 {/* Left robot emoji */}
-                <span className="text-4xl">🤖</span>
+                <span className="text-4xl grayscale">🤖</span>
                 
                 {/* Cogent sun logo */}
                 <img 
@@ -102,7 +99,7 @@ export default function VisualExplainerSection() {
                 />
                 
                 {/* Right robot emoji */}
-                <span className="text-4xl">🤖</span>
+                <span className="text-4xl grayscale">🤖</span>
               </div>
             </div>
           </div>
@@ -110,8 +107,7 @@ export default function VisualExplainerSection() {
           {/* Step 4 */}
           <div className="bg-black/50 p-8 space-y-6">
             <div>
-              <span className="text-4xl font-bold" style={{ color: '#ECCD8C', fontFamily: 'Kode Mono, monospace' }}>4.</span>
-              <h3 className="text-2xl font-bold mt-2" style={{ color: '#ECCD8C', fontFamily: 'Kode Mono, monospace' }}>
+              <h3 className="text-2xl font-bold" style={{ color: '#ECCD8C', fontFamily: 'Kode Mono, monospace' }}>
                 cogent automatically validates and iterates
               </h3>
               <p className="text-white/90 mt-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
